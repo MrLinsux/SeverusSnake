@@ -161,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 2393491}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -277,7 +277,8 @@ MonoBehaviour:
   defaultTiles:
   - {fileID: 11400000, guid: bd1782205e1345542bd0fb71a0f16368, type: 2}
   - {fileID: 11400000, guid: 2ca91866366daa1468ef0f869d25d5e8, type: 2}
-  defaultAreaSize: {x: 20, y: 20}
+  defaultAreaSize: {x: 18, y: 10}
+  apple: {fileID: 8892407265605208653, guid: 5a1115b6f61bb5c46ab842a504e0665c, type: 3}
 --- !u!1 &633911774
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,7 +583,7 @@ GameObject:
   - component: {fileID: 1271109048}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -739,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc73114db25621349a2c94ef084971b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startLen: 4
+  startLen: 0
   speed: 100
 --- !u!114 &1271109055
 MonoBehaviour:
@@ -754,6 +755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
+  nextCell: {x: 0, y: 0}
   isTail: 0
   isHead: 1
   forwardSegment: {fileID: 0}
@@ -773,7 +775,7 @@ GameObject:
   - component: {fileID: 1561358230}
   m_Layer: 0
   m_Name: Tail
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -931,6 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
+  nextCell: {x: 0, y: 0}
   isTail: 1
   isHead: 0
   forwardSegment: {fileID: 1271109055}

@@ -9,6 +9,7 @@ public class Segment : MonoBehaviour
     public static float speed = 1f;
     public static int snakeLen;
     protected Rigidbody2D _rb;
+    [SerializeField]
     protected Vector2 nextCell;
     protected float nextTurn;
     [SerializeField] bool isTail = false;
@@ -36,10 +37,10 @@ public class Segment : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 moveVector = transform.up;
-        Vector2 newDir;
 
         if(isHead)
         {
+            Vector2 newDir;
             if (Input.GetAxis("Vertical") != 0)
             {
                 newDir = Input.GetAxis("Vertical") > 0 ? Vector2.up : Vector2.down;
@@ -87,10 +88,16 @@ public class Segment : MonoBehaviour
     {
         Segment newSegment;
         newSegment = Instantiate(segmentPref, backwardSegment.transform.position, backwardSegment.transform.rotation).GetComponent<Segment>();
-        backwardSegment.MoveSegmentToBackward();
         newSegment.forwardSegment = this;
         newSegment.backwardSegment = backwardSegment;
         backwardSegment.forwardSegment = newSegment;
+        newSegment.nextTurn = backwardSegment.nextTurn;
+        Debug.DrawLine(nextCell, nextCell + 10 * nextCell, Color.blue, 10);
+        newSegment.nextCell = backwardSegment.nextCell;
+        newSegment.transform.rotation = backwardSegment.transform.rotation;
+        backwardSegment.MoveSegmentToBackward();
+
+
         backwardSegment = newSegment;
         snakeLen++;
         
@@ -139,5 +146,14 @@ public class Segment : MonoBehaviour
         backwardSegment.forwardSegment = forwardSegment;
         backwardSegment.MoveSegmentToForward();
         snakeLen--;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Food"))
+        {
+            AddNextSegment();
+            Destroy(collision.gameObject);
+        }
     }
 }
