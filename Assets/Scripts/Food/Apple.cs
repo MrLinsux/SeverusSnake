@@ -18,6 +18,6 @@ public class Apple : Food
 
     private void OnDestroy()
     {
-        GameObject.Find("Main Camera").GetComponent<GameController>().SpawnFood();
+        //GameObject.Find("Main Camera").GetComponent<GameController>().SpawnFood();
     }
 }

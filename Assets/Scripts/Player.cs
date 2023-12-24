@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     {
         Segment.speed = speed;
         CreateBody();
+        Segment.Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
+        Segment.Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
     }
 
     public void CreateBody()
