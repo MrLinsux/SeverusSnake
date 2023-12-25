@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +22,13 @@ public class GameController : MonoBehaviour
     {
         area.SetTiles(GenerateAreaDefault(defaultAreaSize.x, defaultAreaSize.y, -new Vector3Int(defaultAreaSize.x/2, defaultAreaSize.y/2)), true);
         SpawnFood();
+        Vector2 offset = new Vector2(0.5f, 0.5f);
+        var T = 2/Mathf.PI;
+        var step = T * 0.01f;
+        for (float t = 0; t < T; t += step)
+        {
+            Debug.DrawLine(new Vector2(0.5f * Mathf.Cos(t), 0.5f * Mathf.Sin(t))+offset, new Vector2(0.5f * Mathf.Cos(t+step), 0.5f * Mathf.Sin(t+step))+offset, Color.black, 10);
+        }
     }
 
     TileChangeData[] GenerateAreaDefault(int wigth, int height, Vector3Int offset)
