@@ -42,11 +42,8 @@ public class Segment : MonoBehaviour
 
         if (isHead)
         {
-            Vector2 nearFromDirection;
-            Vector2 lastPointDirection;
-            Vector2 nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
-            Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out lastPointDirection);
-            Debug.Log("\nNear From: " + nearFrom + "\nLast Point" + lastPoint);
+            Vector2 nearFrom = Railway.LastRail.GetRailPos(0, out Vector2 nearFromDirection);
+            Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
             Vector2 newDir;
             if(currentT >= Railway.MaxT-1)
             {
@@ -56,15 +53,15 @@ public class Segment : MonoBehaviour
             if (Input.GetAxis("Vertical") != 0)
             {
                 newDir = Input.GetAxis("Vertical") > 0 ? Vector2.up : Vector2.down;
-                if (Mathf.Abs(moveVector.y) <= 0.001f)
+                if (Mathf.Abs(nearFromDirection.y) <= 0.001f)
                 {
-                    Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2+newDir/2);
+                    Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 }
             }
             else if (Input.GetAxis("Horizontal") != 0)
             {
                 newDir = Input.GetAxis("Horizontal") > 0 ? Vector2.right : Vector2.left;
-                if (Mathf.Abs(moveVector.x) <= 0.001f)
+                if (Mathf.Abs(nearFromDirection.x) <= 0.001f)
                 {
                     Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 }
@@ -76,7 +73,7 @@ public class Segment : MonoBehaviour
             }
         }
 
-        currentT += speed * Time.fixedDeltaTime;
+        currentT += speed * Time.fixedDeltaTime * 1.12f;
         var newPos = Railway.GetPositionOnRailway(currentT, out moveVector);
         this.transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
 
@@ -108,6 +105,7 @@ public class Segment : MonoBehaviour
         newSegment = Instantiate(segmentPref, backwardSegment.transform.position, backwardSegment.transform.rotation).GetComponent<Segment>();
         newSegment.forwardSegment = this;
         newSegment.backwardSegment = backwardSegment;
+        newSegment.currentT = currentT;
         backwardSegment.forwardSegment = newSegment;
         newSegment.transform.rotation = backwardSegment.transform.rotation;
         backwardSegment.MoveSegmentToBackward();
@@ -134,6 +132,7 @@ public class Segment : MonoBehaviour
     {
         if (!isHead)
         {
+            currentT++;
             transform.position = forwardSegment.transform.position;
             if (!isTail)
                 backwardSegment.MoveSegmentToForward();
@@ -142,14 +141,15 @@ public class Segment : MonoBehaviour
 
     void MoveSegmentToBackward()
     {
+        currentT--;
         if (isTail)
         {
-            transform.position = transform.position - transform.up;
+            //transform.position = transform.position - transform.up;
         }
         else
         {
-            transform.position = backwardSegment.transform.position;
-            transform.rotation = BackwardSegment.transform.rotation;
+            //transform.position = backwardSegment.transform.position;
+            //transform.rotation = BackwardSegment.transform.rotation;
             backwardSegment.MoveSegmentToBackward();
         }
 
@@ -169,18 +169,33 @@ public class Segment : MonoBehaviour
             AddNextSegment();
             Destroy(collision.gameObject);
         }
+        if(collision.attachedRigidbody.bodyType == RigidbodyType2D.Static)
+        {
+            // is wall
+            Debug.Break();
+        }
     }
 
     public static class Railway
     {
-        public static Rail LastRail { get { return rails.Last(); } set { rails[rails.Count-1] = value; } }
+        public static Rail LastRail { 
+            get 
+            { 
+                return rails.Last(); 
+            } 
+            set 
+            {
+                rails[rails.Count - 1] = value;
+                //Debug.Log($"Rail type of {rails[rails.Count - 1].IsCircle}: From {rails[rails.Count - 1].From} To {rails[rails.Count - 1].To}");
+            }
+        }
         static List<Rail> rails = new List<Rail>();
         public static float MaxT { get { return rails.Count; } }
         public static void AddRail(Vector2 from, Vector2 to)
         {
             rails.Add(new Rail(from, to));
-            string type = rails.Last().IsCircle ? "Circle" : "Line";
-            Debug.Log($"New rail type of {type}: From {from} To {to}");
+            //string type = rails.Last().IsCircle ? "Circle" : "Line";
+            //Debug.Log($"New rail type of {type}: From {from} To {to}");
         }
         public static Vector2 GetPositionOnRailway(float t)
         {
@@ -220,26 +235,28 @@ public class Segment : MonoBehaviour
                 else
                 {
                     // is circle
-                    t *= Mathf.PI / 2;
-                    int x, y;
-                    float signX, signY;
-                    if (from.x == Mathf.Floor(from.x))
+                    t *= Mathf.PI / 4;
+                    Vector2 cell, center, sign;
+                    if (from.x - Mathf.Floor(from.x) <= 0.01f)
                     {
-                        x = ((int)to.x);
-                        y = ((int)from.y);
-                        signX = Mathf.Sign(from.x - x);
-                        signY = Mathf.Sign(to.y - y);
+                        cell = new Vector2(from.x, to.y);
+                        center = new Vector2(to.x, from.y);
                     }
                     else
                     {
-                        x = ((int)from.x);
-                        y = ((int)to.y);
-                        signX = Mathf.Sign(to.x - x);
-                        signY = Mathf.Sign(from.y - y);
+                        cell = new Vector2(to.x, from.y);
+                        center = new Vector2(from.x, to.y);
                     }
 
-                    var offset = new Vector2(x - signX * 0.5f, y + signY * 0.5f);
-                    res = new Vector2(signX * 0.5f * Mathf.Cos(t), signY * 0.5f * Mathf.Sin(t)) + offset;
+                    sign = 2 * (cell - center);
+
+                    res = new Vector2(sign.x * 0.5f,0) + center;
+                    if((res-from).magnitude > 0.01f)
+                    {
+                        t = Mathf.PI / 4 - t;
+                    }
+                    
+                    res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
                 }
 
                 return res;
@@ -256,29 +273,31 @@ public class Segment : MonoBehaviour
                 else
                 {
                     // is circle
-                    t *= Mathf.PI / 2;
-                    int x, y;
-                    float signX, signY;
-                    if (from.x == Mathf.Floor(from.x))
+                    t *= Mathf.PI / 4;
+                    Vector2 cell, center, sign;
+                    if (from.x - Mathf.Floor(from.x) <= 0.01f)
                     {
-                        x = ((int)to.x);
-                        y = ((int)from.y);
-                        signX = Mathf.Sign(from.x - x);
-                        signY = Mathf.Sign(to.y - y);
+                        cell = new Vector2(from.x, to.y);
+                        center = new Vector2(to.x, from.y);
                     }
                     else
                     {
-                        x = ((int)from.x);
-                        y = ((int)to.y);
-                        signX = Mathf.Sign(to.x - x);
-                        signY = Mathf.Sign(from.y - y);
+                        cell = new Vector2(to.x, from.y);
+                        center = new Vector2(from.x, to.y);
                     }
 
-                    var offset = new Vector2(x-signX*0.5f, y + signY * 0.5f);
-                    Debug.Log("Center is " + offset);
-                    res = new Vector2(signX * 0.5f * Mathf.Cos(t), signY * 0.5f * Mathf.Sin(t)) + offset;
-                    direction = new Vector2(-signX * Mathf.Sin(t), signY * Mathf.Cos(t))*0.5f;
-                    Debug.DrawLine(res, res+direction, Color.blue);
+                    sign = 2*(cell - center);
+                    //Debug.DrawLine(cell, center, Color.red, 5f);
+
+                    res = new Vector2(sign.x * 0.5f, 0) + center;
+                    direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
+                    if ((res - from).magnitude > 0.01f)
+                    {
+                        t = Mathf.PI / 4 - t;
+                        direction = -new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
+                    }
+                    res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
+                    Debug.DrawLine(res, res + direction, Color.blue);
                 }
 
                 return res;
