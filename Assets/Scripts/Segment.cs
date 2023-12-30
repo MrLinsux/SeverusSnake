@@ -192,12 +192,26 @@ public class Segment : MonoBehaviour
         public static Vector2 GetPositionOnRailway(float t)
         {
             int _t = (int)t;
-            return rails[_t].GetRailPos(t - _t);
+            try
+            {
+                return rails[_t].GetRailPos(t - _t);
+            }
+            catch
+            {
+                return rails[0].GetRailPos(0);
+            }
         }
         public static Vector2 GetPositionOnRailway(float t, out Vector2 direction)
         {
             int _t = (int)t;
-            return rails[_t].GetRailPos(t - _t, out direction);
+            try
+            {
+                return rails[_t].GetRailPos(t - _t, out direction);
+            }
+            catch
+            {
+                return rails[0].GetRailPos(0, out direction);
+            }
         }
 
         public class Rail
