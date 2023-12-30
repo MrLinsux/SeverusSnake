@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startLen: 3
-  speed: 40
+  speed: 2
   maxEmptyRails: 10
 --- !u!114 &1271109055
 MonoBehaviour:

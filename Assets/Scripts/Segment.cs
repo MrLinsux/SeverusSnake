@@ -75,6 +75,7 @@ public class Segment : MonoBehaviour
         }
         if (isTail && currentT >= maxEmptyRails)
         {
+            // delete some emty rails
             Railway.DeleteFirst();
             MoveSegmentToBackward(true);
         }
