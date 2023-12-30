@@ -6,10 +6,13 @@ public class Player : MonoBehaviour
 {
     public int startLen = 5;
     public int speed = 1;
+    public int maxEmptyRails = 100;
+
 
     private void Start()
     {
         Segment.speed = speed;
+        Segment.maxEmptyRails = maxEmptyRails;
         // add start rails for head and tail
         Segment.Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
         Segment.Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));

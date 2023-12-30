@@ -10,7 +10,9 @@ public class Segment : MonoBehaviour
     [SerializeField]
     protected GameObject segmentPref;
     public static float speed = 1f;
-    public static int snakeLen;
+    public static int SnakeLen { get {  return snakeLen; } }
+    public static int maxEmptyRails = 0;
+    static int snakeLen;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
@@ -70,6 +72,11 @@ public class Segment : MonoBehaviour
                 // if press forward
                 Railway.LastRail = new Railway.Rail(nearFrom, nearFrom+ nearFromDirection);
             }
+        }
+        if (isTail && currentT >= maxEmptyRails)
+        {
+            Railway.DeleteFirst();
+            MoveSegmentToBackward(true);
         }
 
         // movement
@@ -137,12 +144,16 @@ public class Segment : MonoBehaviour
         }
     }
 
-    void MoveSegmentToBackward()
+    void MoveSegmentToBackward(bool forwardInsteadBackward = false)
     {
         currentT--;
-        if (!isTail)
+        if (!forwardInsteadBackward && !isTail)
         {
             backwardSegment.MoveSegmentToBackward();
+        }
+        else if(forwardInsteadBackward && !isHead)
+        {
+            forwardSegment.MoveSegmentToBackward(true);
         }
     }
 
@@ -188,6 +199,10 @@ public class Segment : MonoBehaviour
             rails.Add(new Rail(from, to));
             //string type = rails.Last().IsCircle ? "Circle" : "Line";
             //Debug.Log($"New rail type of {type}: From {from} To {to}");
+        }
+        public static void DeleteFirst()
+        {
+            rails.RemoveAt(0);
         }
         public static Vector2 GetPositionOnRailway(float t)
         {
@@ -269,6 +284,7 @@ public class Segment : MonoBehaviour
 
                 return res;
             }
+
             public Vector2 GetRailPos(float t, out Vector2 direction)
             {
                 // t is from 0 to 1 only!
