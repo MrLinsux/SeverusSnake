@@ -38,30 +38,4 @@ public class GameController : MonoBehaviour
 
         return tiles;
     }
-
-    public void SpawnFood()
-    {
-        throw new NotImplementedException("Don't thouch this!");
-        if (Segment.snakeLen >= defaultAreaSize.x * defaultAreaSize.y * 0.8)
-        {
-            Debug.Log("You Win!");
-            return;
-        }
-        var offset = new Vector2Int(defaultAreaSize.x / 2, defaultAreaSize.y / 2);
-        bool isClear;
-        Vector2 randPos;
-        do
-        {
-            Debug.DrawLine((Vector2)(defaultAreaSize - 3*offset), (Vector2)(defaultAreaSize-offset-Vector2.one), Color.red, 10);
-            var randX = UnityEngine.Random.Range((defaultAreaSize - 3 * offset).x, (defaultAreaSize - offset - Vector2Int.one).x);
-            var randY = UnityEngine.Random.Range((defaultAreaSize - 3 * offset).y, (defaultAreaSize - offset - Vector2Int.one).y);
-            randPos = new Vector2Int(randX, randY);
-            var raycastRes = Physics2D.Raycast(randPos - new Vector2(0.4f, 0.4f), randPos + new Vector2(0.4f, 0.4f));
-            isClear = !(raycastRes.transform != null && raycastRes.transform.CompareTag("Player"));
-            Debug.DrawLine(new Vector2(randX - 0.4f, randY - 0.4f), new Vector2(randX + 0.4f, randY + 0.4f), Color.red, 10);
-        }
-        while (!isClear);
-
-        Instantiate(apple, randPos, Quaternion.identity);
-    }
 }

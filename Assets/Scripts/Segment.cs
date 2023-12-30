@@ -102,12 +102,10 @@ public class Segment : MonoBehaviour
     protected GameObject AddNextSegment()
     {
         Segment newSegment;
-        newSegment = Instantiate(segmentPref, backwardSegment.transform.position, backwardSegment.transform.rotation).GetComponent<Segment>();
-        newSegment.forwardSegment = this;
+        newSegment = Instantiate(segmentPref, backwardSegment.transform.position, backwardSegment.transform.rotation).GetComponent<Segment>();        newSegment.forwardSegment = this;
         newSegment.backwardSegment = backwardSegment;
         newSegment.currentT = currentT;
         backwardSegment.forwardSegment = newSegment;
-        newSegment.transform.rotation = backwardSegment.transform.rotation;
         backwardSegment.MoveSegmentToBackward();
 
 
@@ -142,14 +140,8 @@ public class Segment : MonoBehaviour
     void MoveSegmentToBackward()
     {
         currentT--;
-        if (isTail)
+        if (!isTail)
         {
-            //transform.position = transform.position - transform.up;
-        }
-        else
-        {
-            //transform.position = backwardSegment.transform.position;
-            //transform.rotation = BackwardSegment.transform.rotation;
             backwardSegment.MoveSegmentToBackward();
         }
 
@@ -237,7 +229,7 @@ public class Segment : MonoBehaviour
                     // is circle
                     t *= Mathf.PI / 4;
                     Vector2 cell, center, sign;
-                    if (from.x - Mathf.Floor(from.x) <= 0.01f)
+                    if (Math.Abs(from.x - Mathf.Round(from.x)) <= 0.01f)
                     {
                         cell = new Vector2(from.x, to.y);
                         center = new Vector2(to.x, from.y);
@@ -275,7 +267,7 @@ public class Segment : MonoBehaviour
                     // is circle
                     t *= Mathf.PI / 4;
                     Vector2 cell, center, sign;
-                    if (from.x - Mathf.Floor(from.x) <= 0.01f)
+                    if (Math.Abs(from.x - Mathf.Round(from.x)) <= 0.01f)
                     {
                         cell = new Vector2(from.x, to.y);
                         center = new Vector2(to.x, from.y);
@@ -298,6 +290,7 @@ public class Segment : MonoBehaviour
                     }
                     res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
                     Debug.DrawLine(res, res + direction, Color.blue);
+                    Debug.Log("Center is " + center + " and cell is " + cell);
                 }
 
                 return res;
