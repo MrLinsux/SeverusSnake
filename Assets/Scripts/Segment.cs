@@ -38,13 +38,12 @@ public class Segment : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 moveVector = transform.up;
-
         if (isHead)
         {
             Vector2 nearFrom = Railway.LastRail.GetRailPos(0, out Vector2 nearFromDirection);
             Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
             Vector2 newDir;
+            // if on last rail then add new rail
             if(currentT >= Railway.MaxT-1)
             {
                 Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
@@ -73,12 +72,13 @@ public class Segment : MonoBehaviour
             }
         }
 
+        // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
-        var newPos = Railway.GetPositionOnRailway(currentT, out moveVector);
-        this.transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
-
+        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        // rotate
+        transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
+        // move
         _rb.MovePosition(newPos);
-        //_rb.velocity = moveVector.normalized * speed * Time.fixedDeltaTime;
     }
 
     private void Update()
@@ -144,7 +144,6 @@ public class Segment : MonoBehaviour
         {
             backwardSegment.MoveSegmentToBackward();
         }
-
     }
 
     void OnDestroy()
@@ -170,7 +169,8 @@ public class Segment : MonoBehaviour
 
     public static class Railway
     {
-        public static Rail LastRail { 
+        public static Rail LastRail 
+        { 
             get 
             { 
                 return rails.Last(); 
@@ -178,9 +178,9 @@ public class Segment : MonoBehaviour
             set 
             {
                 rails[rails.Count - 1] = value;
-                //Debug.Log($"Rail type of {rails[rails.Count - 1].IsCircle}: From {rails[rails.Count - 1].From} To {rails[rails.Count - 1].To}");
             }
         }
+        // all rails
         static List<Rail> rails = new List<Rail>();
         public static float MaxT { get { return rails.Count; } }
         public static void AddRail(Vector2 from, Vector2 to)
@@ -202,6 +202,7 @@ public class Segment : MonoBehaviour
 
         public class Rail
         {
+            // class of a rail
             public Rail(Vector2 from, Vector2 to)
             {
                 this.from = from; this.to = to;
@@ -218,6 +219,7 @@ public class Segment : MonoBehaviour
             Vector2 from, to;
             public Vector2 GetRailPos(float t)
             {
+                // t is from 0 to 1 only!
                 Vector2 res;
                 if (!IsCircle)
                 {
@@ -255,6 +257,9 @@ public class Segment : MonoBehaviour
             }
             public Vector2 GetRailPos(float t, out Vector2 direction)
             {
+                // t is from 0 to 1 only!
+                // direction is direction of speed vector
+                // calculate as derivative of position parametric function
                 Vector2 res;
                 if (!IsCircle)
                 {
