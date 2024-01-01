@@ -21,7 +21,7 @@ public class Tail : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        //currentT -= Player.SnakeLen;
+        AddToDestroySegmentsEvent((float startT) => currentT = startT);
     }
 
     private void FixedUpdate()

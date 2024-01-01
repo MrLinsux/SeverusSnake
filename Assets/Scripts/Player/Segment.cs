@@ -14,9 +14,18 @@ public class Segment : MonoBehaviour
     public float CurrentT 
     {  get { return currentT; } set { currentT = value; } }
 
+    // for cutting of tail
+    public delegate void DestroySegmentsFromStartT(float startT);
+    static event DestroySegmentsFromStartT DestroySegments;
+    public static void AddToDestroySegmentsEvent(DestroySegmentsFromStartT method)
+    {
+        DestroySegments += method;
+    }
+
     private void Awake()
     {
         Player.MoveSegmentsBack += MoveSegmentToBackward;
+        DestroySegments += DestroySegment;
     }
 
     protected void Start()
@@ -43,6 +52,23 @@ public class Segment : MonoBehaviour
     void MoveSegmentToBackward()
     {
         currentT--;
+    }
+
+    void DestroySegment(float startT)
+    {
+        if(startT >= currentT)
+        {
+            DestroySegments -= DestroySegment;
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.CompareTag("SegmentEater"))
+        {
+            DestroySegments.Invoke(currentT + 1);
+        }
     }
 
     void OnDestroy()

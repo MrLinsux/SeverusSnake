@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
+    GameObject eater;
+    [SerializeField]
     Tail tail;
     [SerializeField]
     int maxEmptyRails = 100;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
         CreateBody();
         tail.speed = speed;
         tail.maxEmptyRails = maxEmptyRails;
+        eater.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -98,7 +101,7 @@ public class Player : MonoBehaviour
 
     protected GameObject AddNextSegment()
     {
-        GameObject newSegment = Instantiate(segmentPref, transform.position, transform.rotation, transform.parent);
+        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().CurrentT = currentT;
         MoveSegmentsBack.Invoke();
         currentT++;
