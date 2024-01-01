@@ -7,31 +7,17 @@ using UnityEngine;
 
 public class Segment : MonoBehaviour
 {
-    [SerializeField]
-    protected GameObject segmentPref;
     public static float speed = 1f;
-    public static int SnakeLen { get {  return snakeLen; } }
-    public static int maxEmptyRails = 0;
-    static int snakeLen;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
-    [SerializeField] bool isTail = false;
-    [SerializeField] bool isHead = false;
+    public float CurrentT 
+    {  get { return currentT; } set { currentT = value; } }
 
-    public Segment ForwardSegment
+    private void Awake()
     {
-        get { return forwardSegment; }
+        Player.MoveSegmentsBack += MoveSegmentToBackward;
     }
-    [SerializeField]
-    protected Segment forwardSegment;
-
-    public Segment BackwardSegment
-    {
-        get { return backwardSegment; }
-    }
-    [SerializeField]
-    protected Segment backwardSegment;
 
     protected void Start()
     {
@@ -40,46 +26,6 @@ public class Segment : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isHead)
-        {
-            Vector2 nearFrom = Railway.LastRail.GetRailPos(0, out Vector2 nearFromDirection);
-            Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
-            Vector2 newDir;
-            // if on last rail then add new rail
-            if(currentT >= Railway.MaxT-1)
-            {
-                Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
-                nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
-            }
-            if (Input.GetAxis("Vertical") != 0)
-            {
-                newDir = Input.GetAxis("Vertical") > 0 ? Vector2.up : Vector2.down;
-                if (Mathf.Abs(nearFromDirection.y) <= 0.001f)
-                {
-                    Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
-                }
-            }
-            else if (Input.GetAxis("Horizontal") != 0)
-            {
-                newDir = Input.GetAxis("Horizontal") > 0 ? Vector2.right : Vector2.left;
-                if (Mathf.Abs(nearFromDirection.x) <= 0.001f)
-                {
-                    Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
-                }
-            }
-            else if(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized == (Vector2)transform.up)
-            {
-                // if press forward
-                Railway.LastRail = new Railway.Rail(nearFrom, nearFrom+ nearFromDirection);
-            }
-        }
-        if (isTail && currentT >= maxEmptyRails)
-        {
-            // delete some emty rails
-            Railway.DeleteFirst();
-            MoveSegmentToBackward(true);
-        }
-
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
         var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
@@ -89,95 +35,21 @@ public class Segment : MonoBehaviour
         _rb.MovePosition(newPos);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (isHead)
-            {
-                AddNextSegment();
-            }
-        }
-        if(isHead)
-        {
-            for (float i = 0; i < currentT; i += 0.02f)
-            {
-                Debug.DrawLine(Railway.GetPositionOnRailway(i), Railway.GetPositionOnRailway(i + 0.02f), Color.blue);
-            }
-        }
-    }
-
-    protected GameObject AddNextSegment()
-    {
-        Segment newSegment;
-        newSegment = Instantiate(segmentPref, backwardSegment.transform.position, backwardSegment.transform.rotation).GetComponent<Segment>();        newSegment.forwardSegment = this;
-        newSegment.backwardSegment = backwardSegment;
-        newSegment.currentT = currentT;
-        backwardSegment.forwardSegment = newSegment;
-        backwardSegment.MoveSegmentToBackward();
-
-
-        backwardSegment = newSegment;
-        snakeLen++;
-
-
-        return newSegment.gameObject;
-    }
-    public GameObject AddNextSegments(int n)
-    {
-        GameObject newSegment = null;
-        for (int i = 0; i < n; i++)
-        {
-            newSegment = AddNextSegment();
-        }
-
-        return newSegment;
-    }
-
     void MoveSegmentToForward()
     {
-        if (!isHead)
-        {
-            currentT++;
-            transform.position = forwardSegment.transform.position;
-            if (!isTail)
-                backwardSegment.MoveSegmentToForward();
-        }
+        currentT++;
     }
 
-    void MoveSegmentToBackward(bool forwardInsteadBackward = false)
+    void MoveSegmentToBackward()
     {
         currentT--;
-        if (!forwardInsteadBackward && !isTail)
-        {
-            backwardSegment.MoveSegmentToBackward();
-        }
-        else if(forwardInsteadBackward && !isHead)
-        {
-            forwardSegment.MoveSegmentToBackward(true);
-        }
     }
 
     void OnDestroy()
     {
-        //backwardSegment.forwardSegment = forwardSegment;
-        //backwardSegment.MoveSegmentToForward();
-        snakeLen--;
+        Player.DecreaseLen();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Food"))
-        {
-            AddNextSegment();
-            Destroy(collision.gameObject);
-        }
-        if(collision.attachedRigidbody.bodyType == RigidbodyType2D.Static)
-        {
-            // is wall
-            Debug.Break();
-        }
-    }
 
     public static class Railway
     {
@@ -315,7 +187,6 @@ public class Segment : MonoBehaviour
                     }
 
                     sign = 2*(cell - center);
-                    //Debug.DrawLine(cell, center, Color.red, 5f);
 
                     res = new Vector2(sign.x * 0.5f, 0) + center;
                     direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
@@ -326,7 +197,7 @@ public class Segment : MonoBehaviour
                     }
                     res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
                     Debug.DrawLine(res, res + direction, Color.blue);
-                    Debug.Log("Center is " + center + " and cell is " + cell);
+                    //Debug.Log("Center is " + center + " and cell is " + cell);
                 }
 
                 return res;

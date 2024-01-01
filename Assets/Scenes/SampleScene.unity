@@ -927,7 +927,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1271109052}
   - component: {fileID: 1271109054}
-  - component: {fileID: 1271109055}
   - component: {fileID: 1271109050}
   - component: {fileID: 1271109049}
   - component: {fileID: 1271109048}
@@ -1092,25 +1091,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startLen: 3
   speed: 2
+  tail: {fileID: 1561358230}
   maxEmptyRails: 10
---- !u!114 &1271109055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1271109047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f9732bb1ca13a54895cf5766684f714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
   currentT: 1.5
-  isTail: 0
-  isHead: 1
-  forwardSegment: {fileID: 0}
-  backwardSegment: {fileID: 1561358230}
 --- !u!1 &1561358223
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,9 +1105,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1561358229}
   - component: {fileID: 1561358226}
+  - component: {fileID: 1561358230}
   - component: {fileID: 1561358225}
   - component: {fileID: 1561358224}
-  - component: {fileID: 1561358230}
   m_Layer: 0
   m_Name: Tail
   m_TagString: Segment
@@ -1264,7 +1248,7 @@ Transform:
   m_GameObject: {fileID: 1561358223}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1280,15 +1264,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1561358223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f9732bb1ca13a54895cf5766684f714, type: 3}
+  m_Script: {fileID: 11500000, guid: 05faffd2b6408264db380a189fae3269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
-  currentT: 1.5
-  isTail: 1
-  isHead: 0
-  forwardSegment: {fileID: 1271109055}
-  backwardSegment: {fileID: 0}
+  speed: 1
+  maxEmptyRails: 100
+  currentT: 0.5
 --- !u!1001 &3584815083964134654
 PrefabInstance:
   m_ObjectHideFlags: 0
