@@ -610,7 +610,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &718033283
 Transform:
   m_ObjectHideFlags: 0
@@ -1091,6 +1091,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4097666044494635793, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5065086453599650699, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1105,7 +1109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5278728745973085980, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_IncludeLayers.m_Bits
-      value: 64
+      value: 192
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: speed
@@ -1116,12 +1120,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: currentT
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: startLen
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: canEatWallAmount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: distBetweenSegments
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

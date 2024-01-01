@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     {
         canEatWallAmount++;
     }
+    [SerializeField]
+    float distBetweenSegments = 0.5f;
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
@@ -38,6 +40,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         MoveSegmentsBack += MoveSegmentToBackward;
+        tail.distBetweenSegments = distBetweenSegments;
+        Segment.distBetweenSegments = distBetweenSegments;
+        currentT += distBetweenSegments;
     }
 
     private void Start()
@@ -46,11 +51,11 @@ public class Player : MonoBehaviour
         Segment.speed = speed;
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
-        Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
+        //Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
         CreateBody();
         tail.speed = speed;
         tail.maxEmptyRails = maxEmptyRails;
-        eater.SetActive(true);
+        //eater.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -109,10 +114,10 @@ public class Player : MonoBehaviour
 
     protected GameObject AddNextSegment()
     {
-        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
+        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-distBetweenSegments), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().CurrentT = currentT;
         MoveSegmentsBack.Invoke();
-        currentT++;
+        currentT+=distBetweenSegments;
 
         snakeLen++;
 
@@ -137,9 +142,9 @@ public class Player : MonoBehaviour
     }
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT -= distBetweenSegments;
     }
-    public static void InvokeMpveSegmentToBack()
+    public static void InvokeMoveSegmentToBack()
     {
         MoveSegmentsBack.Invoke();
     }

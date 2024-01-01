@@ -8,6 +8,7 @@ using UnityEngine;
 public class Segment : MonoBehaviour
 {
     public static float speed = 1f;
+    public static float distBetweenSegments = 0.5f;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
@@ -51,7 +52,7 @@ public class Segment : MonoBehaviour
 
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT -= distBetweenSegments;
     }
 
     void DestroySegment(float startT)
@@ -67,7 +68,7 @@ public class Segment : MonoBehaviour
     {
         if(collision.CompareTag("SegmentEater"))
         {
-            DestroySegments.Invoke(currentT + 1);
+            DestroySegments.Invoke(currentT + distBetweenSegments);
         }
     }
 

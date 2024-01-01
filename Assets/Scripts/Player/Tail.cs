@@ -8,6 +8,7 @@ public class Tail : MonoBehaviour
 {
     public int speed = 1;
     public int maxEmptyRails = 100;
+    public float distBetweenSegments = 0.5f;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 0.5f;
@@ -30,7 +31,7 @@ public class Tail : MonoBehaviour
         {
             // delete some emty rails
             Railway.DeleteFirst();
-            Player.InvokeMpveSegmentToBack();
+            Player.InvokeMoveSegmentToBack();
         }
 
         // movement
@@ -49,6 +50,6 @@ public class Tail : MonoBehaviour
 
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT-=distBetweenSegments;
     }
 }
