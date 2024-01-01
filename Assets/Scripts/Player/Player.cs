@@ -1,11 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using static Segment;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
+    int canEatWallAmount = 0;
+    public void IncreaseCanEatWallAmount()
+    {
+        canEatWallAmount++;
+    }
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
@@ -136,16 +144,28 @@ public class Player : MonoBehaviour
         MoveSegmentsBack.Invoke();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Food"))
         {
             AddNextSegment();
             Destroy(collision.gameObject);
         }
-        if (collision.attachedRigidbody.bodyType == RigidbodyType2D.Static)
+        // is wall
+        if (canEatWallAmount > 0)
         {
-            // is wall
+            Tilemap walls;
+            if(collision.gameObject.TryGetComponent(out walls))
+            {
+                var grid = walls.layoutGrid;
+                var worldPos = new Vector3((float)Math.Round(Railway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(Railway.LastRail.GetRailPos(0.5f).y));
+                Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
+                walls.SetTile(eatedWallPos, null);
+            }
+            canEatWallAmount--;
+        }
+        else
+        {
             Debug.Break();
         }
     }
