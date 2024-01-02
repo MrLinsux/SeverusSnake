@@ -443,7 +443,7 @@ Transform:
   m_GameObject: {fileID: 5065086453599650699}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -500,14 +500,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canEatWallAmount: 0
-  distBetweenSegments: 0.5
-  startLen: 8
+  distBetweenSegments: 1
+  startLen: 0
   speed: 2
   eater: {fileID: 4097666044494635793}
   tail: {fileID: 4394044919509322562}
   maxEmptyRails: 10
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
-  currentT: 1.5
+  currentT: 0.5
 --- !u!212 &5117957088260896409
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -599,10 +599,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -630,5 +630,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
