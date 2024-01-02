@@ -1111,6 +1111,18 @@ PrefabInstance:
       propertyPath: m_IncludeLayers.m_Bits
       value: 192
       objectReference: {fileID: 0}
+    - target: {fileID: 6426663454689227505, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.24630721
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426663454689227505, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.315
+      objectReference: {fileID: 0}
+    - target: {fileID: 7006785469002733422, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: speed
       value: 2
@@ -1125,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: startLen
-      value: 3
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: canEatWallAmount

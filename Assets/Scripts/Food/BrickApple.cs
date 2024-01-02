@@ -9,7 +9,7 @@ public class BrickApple : MonoBehaviour
         Player player;
         if(collision.gameObject.TryGetComponent(out player))
         {
-            player.IncreaseCanEatWallAmount();
+            player.CanEatWallNow();
             Destroy(gameObject);
         }
     }
@@ -19,7 +19,7 @@ public class BrickApple : MonoBehaviour
         Player player;
         if (collision.gameObject.TryGetComponent(out player))
         {
-            player.IncreaseCanEatWallAmount();
+            player.CanEatWallNow();
             Destroy(gameObject);
         }
     }

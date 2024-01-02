@@ -9,13 +9,13 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    int canEatWallAmount = 0;
-    public void IncreaseCanEatWallAmount()
+    bool canEatWall = false;
+    public void CanEatWallNow()
     {
-        canEatWallAmount++;
+        canEatWall=true;
     }
-    [SerializeField]
-    float distBetweenSegments = 0.5f;
+    //[SerializeField]
+    float distBetweenSegments = 1;
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
     public delegate void MoveSegment();
     public static event MoveSegment MoveSegmentsBack;
+    public static event MoveSegment HeadMoved;
     [SerializeField]
     float currentT = 1.5f;
     public float CurrentT {  get { return currentT; } }
@@ -97,7 +98,9 @@ public class Player : MonoBehaviour
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        //_rb.MovePosition(newPos);
+        transform.position = newPos;
+        HeadMoved.Invoke();
     }
 
     private void Update()
@@ -116,8 +119,8 @@ public class Player : MonoBehaviour
     {
         GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-distBetweenSegments), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().CurrentT = currentT;
-        MoveSegmentsBack.Invoke();
         currentT+=distBetweenSegments;
+        MoveSegmentsBack.Invoke();
 
         snakeLen++;
 
@@ -157,7 +160,7 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
         // is wall
-        if (canEatWallAmount > 0)
+        if (canEatWall)
         {
             Tilemap walls;
             if(collision.gameObject.TryGetComponent(out walls))
@@ -167,7 +170,7 @@ public class Player : MonoBehaviour
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
-            canEatWallAmount--;
+            canEatWall = false;
         }
         else
         {

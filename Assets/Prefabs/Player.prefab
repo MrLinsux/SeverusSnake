@@ -499,15 +499,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc73114db25621349a2c94ef084971b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canEatWallAmount: 0
-  distBetweenSegments: 0.5
+  canEatWall: 0
   startLen: 8
   speed: 2
   eater: {fileID: 4097666044494635793}
   tail: {fileID: 4394044919509322562}
   maxEmptyRails: 10
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
-  currentT: 1.5
+  currentT: 0.5
 --- !u!212 &5117957088260896409
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class Tail : MonoBehaviour
     private void Awake()
     {
         Player.MoveSegmentsBack += MoveSegmentToBackward;
+        Player.HeadMoved += UpdatePosition;
     }
 
     void Start()
@@ -25,7 +26,7 @@ public class Tail : MonoBehaviour
         AddToDestroySegmentsEvent((float startT) => currentT = startT);
     }
 
-    private void FixedUpdate()
+    private void UpdatePosition()
     {
         if (currentT >= maxEmptyRails)
         {
@@ -40,7 +41,8 @@ public class Tail : MonoBehaviour
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        //_rb.MovePosition(newPos);
+        transform.position = newPos;
     }
 
     void MoveSegmentToForward()
