@@ -14,6 +14,14 @@ public class Player : MonoBehaviour
     {
         canEatWall = true;
     }
+    [SerializeField]
+    bool canEatSegment = false;
+    public bool CanEatSegment { get { return canEatSegment; } }
+    public void CanEatSegmentNow()
+    {
+        canEatSegment = true;
+    }
+
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
@@ -148,7 +156,6 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Food"))
         {
             AddNextSegment();
-            Destroy(collision.gameObject);
         }
         // is wall
         if (canEatWall)
