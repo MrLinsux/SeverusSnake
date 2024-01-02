@@ -9,11 +9,23 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+<<<<<<< HEAD
     bool canEatWall = false;
     public void CanEatWallNow()
     {
         canEatWall = true;
+=======
+    bool canEatSegment = false;
+    public bool CanEatSegment { get { return canEatSegment; } }
+    [SerializeField]
+    bool canEatWall = false;
+    public void CanEatWallNow()
+    {
+        canEatWall=true;
+>>>>>>> 5ac24b12c929d9bed721c814861c7d9b6a3461bf
     }
+    //[SerializeField]
+    float distBetweenSegments = 1;
     public int startLen = 5;
     public int speed = 1;
     [SerializeField]
@@ -31,6 +43,7 @@ public class Player : MonoBehaviour
 
     public delegate void MoveSegment();
     public static event MoveSegment MoveSegmentsBack;
+    public static event MoveSegment HeadMoved;
     [SerializeField]
     float currentT = 1.5f;
     public float CurrentT {  get { return currentT; } }
@@ -38,6 +51,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         MoveSegmentsBack += MoveSegmentToBackward;
+        tail.distBetweenSegments = distBetweenSegments;
+        Segment.distBetweenSegments = distBetweenSegments;
+        currentT += distBetweenSegments;
     }
 
     private void Start()
@@ -46,11 +62,11 @@ public class Player : MonoBehaviour
         Segment.speed = speed;
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
-        Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
+        //Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
         CreateBody();
         tail.speed = speed;
         tail.maxEmptyRails = maxEmptyRails;
-        eater.SetActive(true);
+        //eater.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -92,7 +108,9 @@ public class Player : MonoBehaviour
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        //_rb.MovePosition(newPos);
+        transform.position = newPos;
+        HeadMoved.Invoke();
     }
 
     private void Update()
@@ -109,10 +127,10 @@ public class Player : MonoBehaviour
 
     protected GameObject AddNextSegment()
     {
-        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
+        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-distBetweenSegments), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().CurrentT = currentT;
+        currentT+=distBetweenSegments;
         MoveSegmentsBack.Invoke();
-        currentT++;
 
         snakeLen++;
 
@@ -137,9 +155,9 @@ public class Player : MonoBehaviour
     }
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT -= distBetweenSegments;
     }
-    public static void InvokeMpveSegmentToBack()
+    public static void InvokeMoveSegmentToBack()
     {
         MoveSegmentsBack.Invoke();
     }
@@ -162,10 +180,16 @@ public class Player : MonoBehaviour
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
+<<<<<<< HEAD
             canEatWall=false;
+=======
+            canEatWall = false;
+>>>>>>> 5ac24b12c929d9bed721c814861c7d9b6a3461bf
         }
         else
         {
+            MoveSegmentsBack.Invoke();
+            MoveSegmentsBack.Invoke();
             Debug.Break();
         }
     }

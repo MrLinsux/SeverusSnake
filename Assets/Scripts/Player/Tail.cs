@@ -8,6 +8,7 @@ public class Tail : MonoBehaviour
 {
     public int speed = 1;
     public int maxEmptyRails = 100;
+    public float distBetweenSegments = 0.5f;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 0.5f;
@@ -16,6 +17,7 @@ public class Tail : MonoBehaviour
     private void Awake()
     {
         Player.MoveSegmentsBack += MoveSegmentToBackward;
+        Player.HeadMoved += UpdatePosition;
     }
 
     void Start()
@@ -24,13 +26,13 @@ public class Tail : MonoBehaviour
         AddToDestroySegmentsEvent((float startT) => currentT = startT);
     }
 
-    private void FixedUpdate()
+    private void UpdatePosition()
     {
         if (currentT >= maxEmptyRails)
         {
             // delete some emty rails
             Railway.DeleteFirst();
-            Player.InvokeMpveSegmentToBack();
+            Player.InvokeMoveSegmentToBack();
         }
 
         // movement
@@ -39,7 +41,8 @@ public class Tail : MonoBehaviour
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        //_rb.MovePosition(newPos);
+        transform.position = newPos;
     }
 
     void MoveSegmentToForward()
@@ -49,6 +52,6 @@ public class Tail : MonoBehaviour
 
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT-=distBetweenSegments;
     }
 }

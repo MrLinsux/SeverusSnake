@@ -8,11 +8,13 @@ using UnityEngine;
 public class Segment : MonoBehaviour
 {
     public static float speed = 1f;
+    public static float distBetweenSegments = 0.5f;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
     public float CurrentT 
     {  get { return currentT; } set { currentT = value; } }
+    Player player;
 
     // for cutting of tail
     public delegate void DestroySegmentsFromStartT(float startT);
@@ -24,16 +26,14 @@ public class Segment : MonoBehaviour
 
     private void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
+        Player.HeadMoved += UpdatePosition;
         Player.MoveSegmentsBack += MoveSegmentToBackward;
         DestroySegments += DestroySegment;
+        player = GameObject.Find("Head").GetComponent<Player>();
     }
 
-    protected void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-    }
-
-    void FixedUpdate()
+    void UpdatePosition()
     {
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
@@ -41,7 +41,8 @@ public class Segment : MonoBehaviour
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        //_rb.MovePosition(newPos);
+        transform.position = newPos;
     }
 
     void MoveSegmentToForward()
@@ -51,7 +52,7 @@ public class Segment : MonoBehaviour
 
     void MoveSegmentToBackward()
     {
-        currentT--;
+        currentT -= distBetweenSegments;
     }
 
     void DestroySegment(float startT)
@@ -59,6 +60,9 @@ public class Segment : MonoBehaviour
         if(startT >= currentT)
         {
             DestroySegments -= DestroySegment;
+            Player.MoveSegmentsBack -= MoveSegmentToBackward;
+            Player.HeadMoved -= UpdatePosition;
+
             Destroy(gameObject);
         }
     }
@@ -67,7 +71,10 @@ public class Segment : MonoBehaviour
     {
         if(collision.CompareTag("SegmentEater"))
         {
-            DestroySegments.Invoke(currentT + 1);
+            if(player.CanEatSegment)
+                DestroySegments.Invoke(currentT + distBetweenSegments);
+            else
+                Debug.Break();
         }
     }
 
@@ -108,11 +115,13 @@ public class Segment : MonoBehaviour
             int _t = (int)t;
             try
             {
-                return rails[_t].GetRailPos(t - _t);
+                return rails[_t].GetRailPos(0.5f);
+                //return rails[_t].GetRailPos(t - _t);
             }
             catch
             {
-                return rails[0].GetRailPos(0);
+                return rails[0].GetRailPos(0.5f);
+                //return rails[0].GetRailPos(0);
             }
         }
         public static Vector2 GetPositionOnRailway(float t, out Vector2 direction)
@@ -120,11 +129,13 @@ public class Segment : MonoBehaviour
             int _t = (int)t;
             try
             {
-                return rails[_t].GetRailPos(t - _t, out direction);
+                return rails[_t].GetRailPos(0.5f, out direction);
+                //return rails[_t].GetRailPos(t - _t, out direction);
             }
             catch
             {
-                return rails[0].GetRailPos(0, out direction);
+                return rails[0].GetRailPos(0.5f, out direction);
+                //return rails[0].GetRailPos(0, out direction);
             }
         }
 
