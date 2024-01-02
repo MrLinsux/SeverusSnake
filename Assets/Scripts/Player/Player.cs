@@ -9,10 +9,10 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    int canEatWallAmount = 0;
-    public void IncreaseCanEatWallAmount()
+    bool canEatWall = false;
+    public void CanEatWallNow()
     {
-        canEatWallAmount++;
+        canEatWall = true;
     }
     public int startLen = 5;
     public int speed = 1;
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
         // is wall
-        if (canEatWallAmount > 0)
+        if (canEatWall)
         {
             Tilemap walls;
             if(collision.gameObject.TryGetComponent(out walls))
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
-            canEatWallAmount--;
+            canEatWall=false;
         }
         else
         {
