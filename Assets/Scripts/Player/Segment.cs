@@ -179,6 +179,7 @@ public class Segment : MonoBehaviour
                     }
                     
                     res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
+                    //res = new Vector2(sign.x * 0.5f * Mathf.Pow(Mathf.Abs(Mathf.Cos(2 * t)), 0.5f), sign.y * 0.5f * Mathf.Pow(Mathf.Abs(Mathf.Sin(2 * t)), 0.5f)) + center;
                 }
 
                 return res;
@@ -213,19 +214,36 @@ public class Segment : MonoBehaviour
                     }
 
                     sign = 2*(cell - center);
-
+                    float n = 1;
                     res = new Vector2(sign.x * 0.5f, 0) + center;
-                    direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
                     if ((res - from).magnitude > 0.01f)
                     {
                         t = Mathf.PI / 4 - t;
-                        direction = -new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
+                        if (t <= 0.00001f * Mathf.PI / 4)
+                            direction = -cell + to;
+                        else if (t >= 0.99999f * Mathf.PI / 4)
+                            direction = cell - from;
+                        else
+                            direction = -new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
+                            //direction = -new Vector2(-sign.x * Mathf.Pow(Mathf.Abs(Mathf.Cos(2 * t)), -2/n) * Mathf.Sin(2 * t), sign.y * Mathf.Pow(Mathf.Abs(Mathf.Sin(2 * t)), -2 / n) * Mathf.Cos(2 * t));
+                    }
+                    else
+                    {
+                        if (t <= 0.00001f* Mathf.PI / 4)
+                            direction = cell- from;
+                        else if(t >= 0.99999f* Mathf.PI / 4)
+                            direction = -cell + to;
+                        else
+                            direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
+                            //direction = new Vector2(-sign.x * Mathf.Pow(Mathf.Abs(Mathf.Cos(2 * t)), -2 / n) * Mathf.Sin(2 * t), sign.y * Mathf.Pow(Mathf.Abs(Mathf.Sin(2 * t)), -2 / n) * Mathf.Cos(2 * t));
                     }
                     res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
+                    //res = new Vector2(sign.x * 0.5f * Mathf.Pow(Mathf.Abs(Mathf.Cos(2 * t)), 2 / n), sign.y * 0.5f * Mathf.Pow(Mathf.Abs(Mathf.Sin(2 * t)), 2 / n)) + center;
                     Debug.DrawLine(res, res + direction, Color.blue);
                     //Debug.Log("Center is " + center + " and cell is " + cell);
                 }
 
+                direction.Normalize();
                 return res;
             }
         }

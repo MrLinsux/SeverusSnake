@@ -50,7 +50,6 @@ public class Player : MonoBehaviour
         CreateBody();
         tail.speed = speed;
         tail.maxEmptyRails = maxEmptyRails;
-        eater.SetActive(true);
     }
 
     private void FixedUpdate()
@@ -59,7 +58,7 @@ public class Player : MonoBehaviour
         Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
         Vector2 newDir;
         // if on last rail then add new rail
-        if (currentT >= Railway.MaxT - 1)
+        if (currentT >= Railway.MaxT - 0.5f)
         {
             Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
             nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
