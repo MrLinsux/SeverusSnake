@@ -7,7 +7,7 @@ public class BrickApple : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player;
-        if(collision.gameObject.TryGetComponent<Player>(out player))
+        if(collision.gameObject.TryGetComponent(out player))
         {
             player.CanEatWallNow();
             Destroy(gameObject);
@@ -17,7 +17,7 @@ public class BrickApple : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Player player;
-        if (collision.gameObject.TryGetComponent<Player>(out player))
+        if (collision.gameObject.TryGetComponent(out player))
         {
             player.CanEatWallNow();
             Destroy(gameObject);

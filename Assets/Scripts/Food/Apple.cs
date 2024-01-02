@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Apple : Food
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        Player player;
+        if (collision.gameObject.TryGetComponent(out player))
+        {
+            player.AddNextSegments(1);
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
-    }
-
-    private void OnDestroy()
-    {
-        //GameObject.Find("Main Camera").GetComponent<GameController>().SpawnFood();
+        Player player;
+        if (collision.gameObject.TryGetComponent(out player))
+        {
+            player.AddNextSegments(1);
+            Destroy(gameObject);
+        }
     }
 }
