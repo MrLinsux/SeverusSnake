@@ -14,6 +14,7 @@ public class Segment : MonoBehaviour
     float currentT = 1;
     public float CurrentT 
     {  get { return currentT; } set { currentT = value; } }
+    Player player;
 
     // for cutting of tail
     public delegate void DestroySegmentsFromStartT(float startT);
@@ -29,6 +30,7 @@ public class Segment : MonoBehaviour
         Player.HeadMoved += UpdatePosition;
         Player.MoveSegmentsBack += MoveSegmentToBackward;
         DestroySegments += DestroySegment;
+        player = GameObject.Find("Head").GetComponent<Player>();
     }
 
     void UpdatePosition()
@@ -69,7 +71,10 @@ public class Segment : MonoBehaviour
     {
         if(collision.CompareTag("SegmentEater"))
         {
-            DestroySegments.Invoke(currentT + distBetweenSegments);
+            if(player.CanEatSegment)
+                DestroySegments.Invoke(currentT + distBetweenSegments);
+            else
+                Debug.Break();
         }
     }
 

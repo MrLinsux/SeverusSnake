@@ -9,6 +9,9 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    bool canEatSegment = false;
+    public bool CanEatSegment { get { return canEatSegment; } }
+    [SerializeField]
     bool canEatWall = false;
     public void CanEatWallNow()
     {
@@ -174,6 +177,8 @@ public class Player : MonoBehaviour
         }
         else
         {
+            MoveSegmentsBack.Invoke();
+            MoveSegmentsBack.Invoke();
             Debug.Break();
         }
     }
