@@ -114,7 +114,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 0.6}
+  m_LocalScale: {x: 0.6, y: 1, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2346243475394943332}
@@ -134,7 +134,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   maxEmptyRails: 100
-  distBetweenSegments: 0.5
   currentT: 0.5
 --- !u!212 &1422928487602819277
 SpriteRenderer:
@@ -288,8 +287,8 @@ Transform:
   m_GameObject: {fileID: 4097666044494635793}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3566, z: -0.38400006}
-  m_LocalScale: {x: 0.8000001, y: 0.19716074, z: 0.8000001}
+  m_LocalPosition: {x: 0, y: 0.3155, z: -0.38400006}
+  m_LocalScale: {x: 0.8000001, y: 0.25488538, z: 0.8000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7162806284946731801}
@@ -481,7 +480,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 1, z: 0.8}
+  m_LocalScale: {x: 0.8, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6426663454689227505}
@@ -500,13 +499,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canEatWall: 0
-  startLen: 8
+  startLen: 3
   speed: 2
   eater: {fileID: 4097666044494635793}
   tail: {fileID: 4394044919509322562}
   maxEmptyRails: 10
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
-  currentT: 0.5
+  currentT: 1.5
 --- !u!212 &5117957088260896409
 SpriteRenderer:
   m_ObjectHideFlags: 0
