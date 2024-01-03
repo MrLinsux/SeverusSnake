@@ -164,7 +164,21 @@ public class Player : MonoBehaviour
             if(collision.gameObject.TryGetComponent(out walls))
             {
                 var grid = walls.layoutGrid;
-                var worldPos = new Vector3((float)Math.Round(Railway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(Railway.LastRail.GetRailPos(0.5f).y));
+                Vector3 worldPos = Vector3.zero;
+                if (collision.contactCount == 2)
+                {
+                    worldPos = new Vector3((float)Math.Round(Railway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(Railway.LastRail.GetRailPos(0.5f).y));
+                }
+                else if (collision.contactCount == 1)
+                {
+                    var toPos = Railway.LastRail.GetRailPos(1, out var toDir);
+                    toDir.Normalize();
+                    toDir *= 0.5f;
+                    Debug.DrawLine(transform.position, toPos+toDir, Color.red, 10);
+                    toDir += toPos;
+                    worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
+                    Debug.DrawLine(transform.position, worldPos, Color.red, 10);
+                }
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
