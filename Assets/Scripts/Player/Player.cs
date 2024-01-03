@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
         Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
         Vector2 newDir;
         // if on last rail then add new rail
-        if (currentT >= Railway.MaxT - 0.5f)
+        if (currentT >= Railway.MaxT - 0.67f)
         {
             Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
             nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);

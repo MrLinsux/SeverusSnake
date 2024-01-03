@@ -179,7 +179,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2400548467983768491, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 2400548467983768491, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -575,7 +575,7 @@ Camera:
   far clip plane: 2
   field of view: 60
   orthographic: 1
-  orthographic size: 4.821429
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3778,7 +3778,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 9
+      m_TileSpriteIndex: 10
       m_TileMatrixIndex: 3
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -4239,10 +4239,10 @@ Tilemap:
     m_Data: {fileID: 1514300461, guid: 426451fe3a3d4fb4f9ecd2aa4f699716, type: 3}
   - m_RefCount: 6
     m_Data: {fileID: -275873072, guid: 426451fe3a3d4fb4f9ecd2aa4f699716, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 2041330800, guid: 426451fe3a3d4fb4f9ecd2aa4f699716, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 2041330800, guid: 426451fe3a3d4fb4f9ecd2aa4f699716, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 222614280, guid: 426451fe3a3d4fb4f9ecd2aa4f699716, type: 3}
   - m_RefCount: 1
