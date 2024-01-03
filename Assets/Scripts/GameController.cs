@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,11 +14,15 @@ public class GameController : MonoBehaviour
     int requiredLen = -1;
     [SerializeField]
     int requiredApples = -1;
+    [SerializeField]
+    TMP_Text lenCounter;
+    [SerializeField]
+    TMP_Text applesCounter;
 
     static int _requiredLen = -1;
     static int _requiredApples = -1;
 
-    public static int LenPoints {  get { return _lenPoints; } set { if (_lenPoints != -1) _lenPoints = value; CheckWin(); } }
+    public static int LenPoints {  get { return _lenPoints; } set { if (_lenPoints != -1) { _lenPoints = value; CheckWin(); } } }
     public static int ApplePoints {  get { return _applePoints; } set { if (_applePoints != -1) _applePoints = value; CheckWin(); } }
     static int _lenPoints = -1;
     static int _applePoints = -1;
@@ -28,6 +33,14 @@ public class GameController : MonoBehaviour
         _requiredLen = requiredLen;
         _lenPoints = requiredLen == -1 ? -1 : 0;
         _applePoints = requiredApples == -1 ? -1 : 0;
+        lenCounter.gameObject.SetActive(_requiredLen != -1);
+        applesCounter.gameObject.SetActive(_requiredApples != -1);
+    }
+
+    private void Update()
+    {
+        lenCounter.text = LenPoints.ToString();
+        applesCounter.text = ApplePoints.ToString();
     }
 
     public static bool CheckWin()
