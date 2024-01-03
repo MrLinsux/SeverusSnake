@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnDestroy()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameController.ApplePoints++;
     }
 }

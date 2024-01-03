@@ -33,9 +33,9 @@ public class Player : MonoBehaviour
     protected Rigidbody2D _rb;
     [SerializeField]
     protected GameObject segmentPref;
-    public static int SnakeLen { get { return snakeLen; } }
+    public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.LenPoints=snakeLen; } }
     static int snakeLen;
-    public static void DecreaseLen() => snakeLen--;
+    public static void DecreaseLen() => SnakeLen--;
 
     public delegate void MoveSegment();
     public static event MoveSegment MoveSegmentsBack;
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        snakeLen = 0;
         MoveSegmentsBack += MoveSegmentToBackward;
     }
 
@@ -121,7 +122,7 @@ public class Player : MonoBehaviour
         MoveSegmentsBack.Invoke();
         currentT++;
 
-        snakeLen++;
+        SnakeLen++;
 
         return newSegment;
     }

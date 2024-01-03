@@ -10,32 +10,46 @@ using UnityEngine.Tilemaps;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    Tilemap area;
+    int requiredLen = -1;
     [SerializeField]
-    Tile[] defaultTiles;
-    [SerializeField]
-    Vector2Int defaultAreaSize = Vector2Int.zero;
-    [SerializeField]
-    GameObject apple;
+    int requiredApples = -1;
 
-    void Start()
+    static int _requiredLen = -1;
+    static int _requiredApples = -1;
+
+    public static int LenPoints {  get { return _lenPoints; } set { if (_lenPoints != -1) _lenPoints = value; CheckWin(); } }
+    public static int ApplePoints {  get { return _applePoints; } set { if (_applePoints != -1) _applePoints = value; CheckWin(); } }
+    static int _lenPoints = -1;
+    static int _applePoints = -1;
+
+    private void Awake()
     {
-        area.SetTiles(GenerateAreaDefault(defaultAreaSize.x, defaultAreaSize.y, -new Vector3Int(defaultAreaSize.x/2, defaultAreaSize.y/2)), true);
-        //SpawnFood();
+        _requiredApples = requiredApples;
+        _requiredLen = requiredLen;
+        _lenPoints = requiredLen == -1 ? -1 : 0;
+        _applePoints = requiredApples == -1 ? -1 : 0;
     }
 
-    TileChangeData[] GenerateAreaDefault(int wigth, int height, Vector3Int offset)
+    public static bool CheckWin()
     {
-        TileChangeData[] tiles = new TileChangeData[wigth*height];
-        for(int y = 0; y < height; y++)
+        if ((ApplePoints > _requiredApples) || (LenPoints > _requiredLen))
         {
-            for(int x = 0; x < wigth; x++)
-            {
-                var tile = defaultTiles[(x + y) % defaultTiles.Length];
-                tiles[x+ wigth * y] = new TileChangeData(new Vector3Int(x, y)+offset, tile, tile.color, tile.transform);
-            }
+            GameOver(false);
+        }
+        if(((ApplePoints == -1) || (ApplePoints == _requiredApples)) && ((LenPoints == -1) || (LenPoints == _requiredLen)))
+        {
+            GameOver(true);
         }
 
-        return tiles;
+        return ((ApplePoints == -1) || (ApplePoints == _requiredApples)) && ((LenPoints == -1) || (LenPoints == _requiredLen));
+    }
+
+    public static void GameOver(bool isWin)
+    {
+        if (isWin)
+            Debug.Log("You Win!");
+        else
+            Debug.Log("You Lose");
+        Debug.Break();
     }
 }
