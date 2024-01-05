@@ -25,6 +25,10 @@ public class Segment : MonoBehaviour
     {
         DestroySegments += method;
     }
+    public static void InvokeDestroySegmentsEvent(float startT)
+    {
+        DestroySegments.Invoke(startT);
+    }
 
     private void Awake()
     {
@@ -61,13 +65,10 @@ public class Segment : MonoBehaviour
 
     void DestroySegment(float startT)
     {
-        if(startT >= currentT)
+        if (startT >= currentT)
         {
             DestroySegments -= DestroySegment;
-            if (player.CanEatSegment)
-            {
-                Instantiate(spawnApplePrefab, transform.position, Quaternion.identity);
-            }
+            Instantiate(spawnApplePrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

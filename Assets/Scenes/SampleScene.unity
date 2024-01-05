@@ -221,6 +221,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5302550333386481512, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_Size.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5302550333386481512, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
+      propertyPath: m_Size.y
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: startLen
       value: 0
@@ -638,8 +646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bffc776038525124db8038c55f689bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredLen: 5
-  requiredApples: 7
+  requiredLen: 167
+  requiredApples: 206
   lenCounter: {fileID: 579901430}
   applesCounter: {fileID: 496777806}
 --- !u!1 &579901428

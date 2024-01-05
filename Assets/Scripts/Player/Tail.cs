@@ -12,10 +12,12 @@ public class Tail : MonoBehaviour
     [SerializeField]
     float currentT = 0.5f;
     public float CurrentT { get { return currentT; } }
+    Player player;
 
     private void Awake()
     {
         Player.MoveSegmentsBack += MoveSegmentToBackward;
+        player = GameObject.Find("Head").GetComponent<Player>();
     }
 
     void Start()
@@ -50,5 +52,16 @@ public class Tail : MonoBehaviour
     void MoveSegmentToBackward()
     {
         currentT--;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SegmentEater"))
+        {
+            if (player.CanEatSegment)
+                Segment.InvokeDestroySegmentsEvent(currentT + 1);
+            else
+                Debug.Break();
+        }
     }
 }
