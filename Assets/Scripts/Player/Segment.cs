@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Segment : MonoBehaviour
 {
     public static float speed = 1f;
+    [SerializeField]
+    GameObject spawnApplePrefab;
     protected Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
@@ -61,6 +64,10 @@ public class Segment : MonoBehaviour
         if(startT >= currentT)
         {
             DestroySegments -= DestroySegment;
+            if (player.CanEatSegment)
+            {
+                Instantiate(spawnApplePrefab, transform.position, Quaternion.identity);
+            }
             Destroy(gameObject);
         }
     }
@@ -101,8 +108,6 @@ public class Segment : MonoBehaviour
         public static void AddRail(Vector2 from, Vector2 to)
         {
             rails.Add(new Rail(from, to));
-            //string type = rails.Last().IsCircle ? "Circle" : "Line";
-            //Debug.Log($"New rail type of {type}: From {from} To {to}");
         }
         public static void DeleteFirst()
         {
@@ -182,7 +187,6 @@ public class Segment : MonoBehaviour
                         t = 1 - t;
                     }
 
-                    //res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
                     res = SplineIntepolate(from, cell, to, t);
                 }
 
@@ -204,7 +208,6 @@ public class Segment : MonoBehaviour
                 else
                 {
                     // is circle
-                    //t *= Mathf.PI / 4;
                     Vector2 cell, center, sign;
                     if (Math.Abs(from.x - Mathf.Round(from.x)) <= 0.01f)
                     {
@@ -221,29 +224,14 @@ public class Segment : MonoBehaviour
                     res = new Vector2(sign.x * 0.5f, 0) + center;
                     if ((res - from).magnitude > 0.01f)
                     {
-                        //t = Mathf.PI / 4 - t;
-                        //if (t <= 0.00001f * Mathf.PI / 4)
-                        //    direction = -cell + to;
-                        //else if (t >= 0.99999f * Mathf.PI / 4)
-                        //    direction = cell - from;
-                        //else
-                            //direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
                             direction = SplineIntepolateDirection(from, cell, to, t);
                     }
                     else
                     {
-                    //    if (t <= 0.00001f * Mathf.PI / 4)
-                    //        direction = cell - from;
-                    //    else if (t >= 0.99999f * Mathf.PI / 4)
-                    //        direction = -cell + to;
-                    //    else
-                            //direction = new Vector2(-sign.x * Mathf.Sin(2 * t), sign.y * Mathf.Cos(2 * t));
                             direction = SplineIntepolateDirection(from, cell, to, t);
                     }
-                    //res = new Vector2(sign.x * 0.5f * Mathf.Cos(2 * t), sign.y * 0.5f * Mathf.Sin(2 * t)) + center;
                     res = SplineIntepolate(from, cell, to, t);
                     Debug.DrawLine(res, res + direction, Color.blue);
-                    //Debug.Log("Center is " + center + " and cell is " + cell);
                 }
 
                 direction.Normalize();
