@@ -78,7 +78,10 @@ public class Segment : MonoBehaviour
         if(collision.CompareTag("SegmentEater"))
         {
             if (player.CanEatSegment)
+            {
+                player.CantEatSegmentNow();
                 DestroySegments.Invoke(currentT + 1);
+            }
             else
                 Debug.Break();
         }

@@ -59,7 +59,10 @@ public class Tail : MonoBehaviour
         if (collision.CompareTag("SegmentEater"))
         {
             if (player.CanEatSegment)
-                Segment.InvokeDestroySegmentsEvent(currentT + 1);
+            {
+                player.CantEatSegmentNow();
+                InvokeDestroySegmentsEvent(currentT + 1);
+            }
             else
                 Debug.Break();
         }

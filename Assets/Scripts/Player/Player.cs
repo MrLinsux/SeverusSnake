@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
     {
         canEatSegment = true;
     }
+    public void CantEatSegmentNow()
+    {
+        canEatSegment = false;
+    }
 
     public int startLen = 5;
     public int speed = 1;
