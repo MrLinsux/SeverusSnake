@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
     {
         currentT--;
     }
-    public static void InvokeMpveSegmentToBack()
+    public static void InvokeMoveSegmentToBack()
     {
         MoveSegmentsBack.Invoke();
     }

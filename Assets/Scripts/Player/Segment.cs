@@ -67,9 +67,12 @@ public class Segment : MonoBehaviour
     {
         if (startT >= currentT)
         {
-            DestroySegments -= DestroySegment;
-            Instantiate(spawnApplePrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
+            DestroySegments -= DestroySegment;
+            if (startT != currentT+1)
+                Instantiate(spawnApplePrefab, Railway.GetPositionOnRailway(currentT), Quaternion.identity);
+            else
+                GameController.ApplePoints++;
         }
     }
 

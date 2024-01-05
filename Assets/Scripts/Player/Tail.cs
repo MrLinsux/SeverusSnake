@@ -32,7 +32,7 @@ public class Tail : MonoBehaviour
         {
             // delete some emty rails
             Railway.DeleteFirst();
-            Player.InvokeMpveSegmentToBack();
+            Player.InvokeMoveSegmentToBack();
         }
 
         // movement
