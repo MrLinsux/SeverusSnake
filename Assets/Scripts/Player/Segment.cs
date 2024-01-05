@@ -132,16 +132,16 @@ public class Segment : MonoBehaviour
                 return rails[0].GetRailPos(0);
             }
         }
-        public static Vector2 GetPositionOnRailway(float t, out Vector2 direction)
+        public static Vector2 GetPositionOnRailway(float t, out Vector2 direction, bool isHead = false)
         {
             int _t = (int)t;
             try
             {
-                return rails[_t].GetRailPos(t - _t, out direction);
+                return rails[_t].GetRailPos(t - _t, out direction, isHead);
             }
             catch
             {
-                return rails[0].GetRailPos(0, out direction);
+                return rails[0].GetRailPos(0, out direction, isHead);
             }
         }
 
@@ -174,7 +174,7 @@ public class Segment : MonoBehaviour
                 else
                 {
                     // is circle
-                    Vector2 cell, center, sign;
+                    Vector2 cell, center;
                     if (Math.Abs(from.x - Mathf.Round(from.x)) <= 0.01f)
                     {
                         cell = new Vector2(from.x, to.y);
@@ -186,21 +186,13 @@ public class Segment : MonoBehaviour
                         center = new Vector2(from.x, to.y);
                     }
 
-                    sign = 2 * (cell - center);
-
-                    res = new Vector2(sign.x * 0.5f,0) + center;
-                    if((res-from).magnitude > 0.01f)
-                    {
-                        t = 1 - t;
-                    }
-
                     res = SplineIntepolate(from, cell, to, t);
                 }
 
                 return res;
             }
 
-            public Vector2 GetRailPos(float t, out Vector2 direction)
+            public Vector2 GetRailPos(float t, out Vector2 direction, bool isHead = false)
             {
                 // t is from 0 to 1 only!
                 // direction is direction of speed vector
@@ -215,7 +207,7 @@ public class Segment : MonoBehaviour
                 else
                 {
                     // is circle
-                    Vector2 cell, center, sign;
+                    Vector2 cell, center;
                     if (Math.Abs(from.x - Mathf.Round(from.x)) <= 0.01f)
                     {
                         cell = new Vector2(from.x, to.y);
@@ -227,17 +219,8 @@ public class Segment : MonoBehaviour
                         center = new Vector2(from.x, to.y);
                     }
 
-                    sign = 2*(cell - center);
-                    res = new Vector2(sign.x * 0.5f, 0) + center;
-                    if ((res - from).magnitude > 0.01f)
-                    {
-                            direction = SplineIntepolateDirection(from, cell, to, t);
-                    }
-                    else
-                    {
-                            direction = SplineIntepolateDirection(from, cell, to, t);
-                    }
-                    res = SplineIntepolate(from, cell, to, t);
+                    direction = SplineIntepolateDirection(from, cell, to, t, isHead);
+                    res = SplineIntepolate(from, cell, to, t, isHead);
                     Debug.DrawLine(res, res + direction, Color.blue);
                 }
 
@@ -245,17 +228,21 @@ public class Segment : MonoBehaviour
                 return res;
             }
 
-            Vector2 SplineIntepolate(Vector2 a,  Vector2 b, Vector2 c, float t)
+            Vector2 SplineIntepolate(Vector2 a,  Vector2 b, Vector2 c, float t, bool fourPoints = false)
             {
                 // curve bezie
-                return (1 - t) * (1 - t) * a + 2 * t * (1 - t) * b + t * t * c;
-                //return (1 - t) * (1 - t)* (1 - t) * a + 3 * t * (1 - t)* (1 - t) * b + 3 * t*t * (1 - t) * b + t * t * t*c;
+                if(!fourPoints)
+                    return (1 - t) * (1 - t) * a + 2 * t * (1 - t) * b + t * t * c;
+                else
+                    return (1 - t) * (1 - t)* (1 - t) * a + 3 * t * (1 - t)* (1 - t) * b + 3 * t*t * (1 - t) * b + t * t * t*c;
             }
-            Vector2 SplineIntepolateDirection(Vector2 a, Vector2 b, Vector2 c, float t)
+            Vector2 SplineIntepolateDirection(Vector2 a, Vector2 b, Vector2 c, float t, bool fourPoints = false)
             {
                 // curve bezie
-                return -2*a*(1-t)+2*b*(1-t)-2*b*t+2*c*t;
-                //return -3 * a * (1 - t) * (1 - t) + 3 * b * (1 - t) * (1 - t) - 3 * b * t * t + 3 * c * t * t;
+                if (!fourPoints)
+                    return -2 * a * (1 - t) + 2 * b * (1 - t) - 2 * b * t + 2 * c * t;
+                else
+                    return -3 * a * (1 - t) * (1 - t) + 3 * b * (1 - t) * (1 - t) - 3 * b * t * t + 3 * c * t * t;
             }
         }
     }

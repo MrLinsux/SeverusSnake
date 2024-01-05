@@ -59,7 +59,6 @@ public class Player : MonoBehaviour
         Segment.speed = speed;
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
-        //Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 0.5f), new Vector2(transform.position.x, transform.position.y + 0.5f));
         CreateBody();
         tail.speed = speed;
         tail.maxEmptyRails = maxEmptyRails;
@@ -71,7 +70,7 @@ public class Player : MonoBehaviour
         Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
         Vector2 newDir;
         // if on last rail then add new rail
-        if (currentT >= Railway.MaxT - 0.67f)
+        if (currentT >= Railway.MaxT - 0.5f)
         {
             Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
             nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
@@ -100,7 +99,7 @@ public class Player : MonoBehaviour
 
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector, true);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
@@ -179,7 +178,6 @@ public class Player : MonoBehaviour
                     var toPos = Railway.LastRail.GetRailPos(1, out var toDir);
                     toDir.Normalize();
                     toDir *= 0.5f;
-                    Debug.DrawLine(transform.position, toPos+toDir, Color.red, 10);
                     toDir += toPos;
                     worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
                     Debug.DrawLine(transform.position, worldPos, Color.red, 10);
@@ -187,7 +185,7 @@ public class Player : MonoBehaviour
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
-            canEatWall=false;
+            canEatWall = false;
         }
         else
         {
