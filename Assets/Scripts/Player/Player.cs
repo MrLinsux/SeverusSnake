@@ -99,11 +99,28 @@ public class Player : MonoBehaviour
 
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector, true);
+        MoveToPosition();
+    }
+
+    void MoveToPosition()
+    {
+        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
         _rb.MovePosition(newPos);
+    }
+
+    void MoveSegmentToForward()
+    {
+        currentT++;
+        MoveToPosition();
+    }
+
+    void MoveSegmentToBackward()
+    {
+        currentT--;
+        //MoveToPosition();
     }
 
     private void Update()
@@ -146,10 +163,7 @@ public class Player : MonoBehaviour
         // n=0 then only head and tail
         AddNextSegments(startLen);
     }
-    void MoveSegmentToBackward()
-    {
-        currentT--;
-    }
+
     public static void InvokeMoveSegmentToBack()
     {
         MoveSegmentsBack.Invoke();

@@ -32,20 +32,21 @@ public class Segment : MonoBehaviour
 
     private void Awake()
     {
+        _rb = GetComponent<Rigidbody2D>();
         Player.MoveSegmentsBack += MoveSegmentToBackward;
         DestroySegments += DestroySegment;
         player = GameObject.Find("Head").GetComponent<Player>();
-    }
-
-    protected void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
+        MoveToPosition();
+    }
+
+    void MoveToPosition()
+    {
         var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
@@ -56,11 +57,13 @@ public class Segment : MonoBehaviour
     void MoveSegmentToForward()
     {
         currentT++;
+        MoveToPosition();
     }
 
     void MoveSegmentToBackward()
     {
         currentT--;
+        //MoveToPosition();
     }
 
     void DestroySegment(float startT)
@@ -68,6 +71,7 @@ public class Segment : MonoBehaviour
         if (startT >= currentT)
         {
             Destroy(gameObject);
+            
             DestroySegments -= DestroySegment;
             if (startT != currentT+1)
                 Instantiate(spawnApplePrefab, Railway.GetPositionOnRailway(currentT), Quaternion.identity);

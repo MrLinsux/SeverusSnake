@@ -23,7 +23,7 @@ public class Tail : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        AddToDestroySegmentsEvent((float startT) => currentT = startT);
+        AddToDestroySegmentsEvent(MoveToPosition);
     }
 
     private void FixedUpdate()
@@ -37,6 +37,20 @@ public class Tail : MonoBehaviour
 
         // movement
         currentT += speed * Time.fixedDeltaTime * 1.12f;
+        MoveToPosition();
+    }
+
+    void MoveToPosition()
+    {
+        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        // rotate
+        transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
+        // move
+        _rb.MovePosition(newPos);
+    }
+    void MoveToPosition(float t)
+    {
+        currentT = t;
         var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
@@ -47,11 +61,13 @@ public class Tail : MonoBehaviour
     void MoveSegmentToForward()
     {
         currentT++;
+        MoveToPosition();
     }
 
     void MoveSegmentToBackward()
     {
         currentT--;
+        //MoveToPosition();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
