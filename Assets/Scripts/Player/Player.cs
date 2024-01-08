@@ -9,20 +9,49 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    Sprite brickSnake;          // head
+    [SerializeField]
+    Sprite[] jellySnake;        // 0 - segment; 1 - tail
+    [SerializeField]
+    Sprite[] standartSnake;     // 0 - head; 1 - segment; 2 - tail
+
+    [SerializeField]
     bool canEatWall = false;
     public void CanEatWallNow()
     {
+        SpriteRenderer bodySprites = transform.parent.GetComponentInChildren<SpriteRenderer>();
+        bodySprites.sprite = brickSnake;
         canEatWall = true;
+    }
+    public void CantEatWallNow()
+    {
+        SpriteRenderer bodySprites = transform.parent.GetComponentInChildren<SpriteRenderer>();
+        bodySprites.sprite = standartSnake[0];
+        canEatWall = false;
     }
     [SerializeField]
     bool canEatSegment = false;
     public bool CanEatSegment { get { return canEatSegment; } }
     public void CanEatSegmentNow()
     {
+        SpriteRenderer[] bodySprites = transform.parent.GetComponentsInChildren<SpriteRenderer>();
+        for(int i = 2; i < bodySprites.Length; i++)
+        {
+            bodySprites[i].sprite = jellySnake[0];   // segments of snake
+        }
+        segmentPref.GetComponent<SpriteRenderer>().sprite = jellySnake[0];   // segment prefab
+        bodySprites[1].sprite = jellySnake[1];      // tail
         canEatSegment = true;
     }
     public void CantEatSegmentNow()
     {
+        SpriteRenderer[] bodySprites = transform.parent.GetComponentsInChildren<SpriteRenderer>();
+        for (int i = 2; i < bodySprites.Length; i++)
+        {
+            bodySprites[i].sprite = standartSnake[1];   // segments of snake
+        }
+        segmentPref.GetComponent<SpriteRenderer>().sprite = standartSnake[1];   // segment prefab
+        bodySprites[1].sprite = standartSnake[2];      // tail
         canEatSegment = false;
     }
 
@@ -199,7 +228,7 @@ public class Player : MonoBehaviour
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
             }
-            canEatWall = false;
+            CantEatWallNow();
         }
         else
         {

@@ -360,6 +360,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc73114db25621349a2c94ef084971b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  brickSnake: {fileID: -1374904252, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  jellySnake:
+  - {fileID: 537680605, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  - {fileID: -532289222, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  standartSnake:
+  - {fileID: -2056780929, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  - {fileID: 1756217273, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  - {fileID: 2013711883, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   canEatWall: 0
   canEatSegment: 0
   startLen: 0
