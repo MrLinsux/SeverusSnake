@@ -50,12 +50,13 @@ public class Tail : MonoBehaviour
     }
     void MoveToPosition(float t)
     {
+        // warn: this is no physic movement!
         currentT = t;
         var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
-        _rb.MovePosition(newPos);
+        transform.position = newPos;
     }
 
     void MoveSegmentToForward()
