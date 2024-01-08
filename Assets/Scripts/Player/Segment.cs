@@ -68,15 +68,15 @@ public class Segment : MonoBehaviour
 
     void DestroySegment(float startT)
     {
-        if (startT >= currentT)
+        // startT is T + 1 of segment-invoker
+        if(currentT<=startT)
         {
-            Destroy(gameObject);
-            
             DestroySegments -= DestroySegment;
-            if (startT != currentT+1)
-                Instantiate(spawnApplePrefab, Railway.GetPositionOnRailway(currentT), Quaternion.identity);
-            else
-                GameController.ApplePoints++;
+            Destroy(gameObject);
+        }
+        if(currentT <= startT-1)
+        {
+            Instantiate(spawnApplePrefab, Railway.GetPositionOnRailway(currentT-1), Quaternion.identity);
         }
     }
 
@@ -88,6 +88,7 @@ public class Segment : MonoBehaviour
             {
                 player.CantEatSegmentNow();
                 DestroySegments.Invoke(currentT + 1);
+                GameController.ApplePoints++;
             }
             else
                 Debug.Break();
