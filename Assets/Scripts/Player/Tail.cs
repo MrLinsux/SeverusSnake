@@ -81,7 +81,10 @@ public class Tail : MonoBehaviour
                 InvokeDestroySegmentsEvent(currentT + 1);
             }
             else
+            {
                 Debug.Break();
+                GameController.GameOver(false);
+            }
         }
     }
 }

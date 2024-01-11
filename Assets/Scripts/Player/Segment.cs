@@ -82,7 +82,7 @@ public class Segment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("SegmentEater"))
+        if (collision.CompareTag("SegmentEater"))
         {
             if (player.CanEatSegment)
             {
@@ -91,7 +91,10 @@ public class Segment : MonoBehaviour
                 GameController.ApplePoints++;
             }
             else
+            {
                 Debug.Break();
+                GameController.GameOver(false);
+            }
         }
     }
 

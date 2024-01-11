@@ -230,6 +230,7 @@ public class Player : MonoBehaviour
         else
         {
             Debug.Break();
+            GameController.GameOver(false);
         }
     }
 }

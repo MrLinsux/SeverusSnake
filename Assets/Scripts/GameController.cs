@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class GameController : MonoBehaviour
@@ -60,9 +61,15 @@ public class GameController : MonoBehaviour
     public static void GameOver(bool isWin)
     {
         if (isWin)
+        {
             Debug.Log("You Win!");
+
+        }
         else
+        {
             Debug.Log("You Lose");
+        }
         Debug.Break();
+        SceneManager.LoadScene("MainMenu");
     }
 }
