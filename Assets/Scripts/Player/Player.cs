@@ -56,17 +56,23 @@ public class Player : MonoBehaviour
         canEatSegment = false;
     }
 
-    public int startLen = 5;
-    public int speed = 1;
+    [SerializeField]
+    int startLen = 5;
+    [SerializeField]
+    int speed = 1;
+    public int Speed { get { return speed; } }
+
     [SerializeField]
     GameObject eater;
     [SerializeField]
     Tail tail;
     [SerializeField]
     int maxEmptyRails = 100;
-    protected Rigidbody2D _rb;
+    public int MaxEmptyRails { get {  return maxEmptyRails; } }
+
+    Rigidbody2D _rb;
     [SerializeField]
-    protected GameObject segmentPref;
+    GameObject segmentPref;
     public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.LenPoints=snakeLen; } }
     static int snakeLen;
     public static void DecreaseLen() => SnakeLen--;
@@ -86,12 +92,9 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        Segment.speed = speed;
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
         CreateBody();
-        tail.speed = speed;
-        tail.maxEmptyRails = maxEmptyRails;
     }
 
     private void FixedUpdate()
@@ -144,13 +147,11 @@ public class Player : MonoBehaviour
     void MoveSegmentToForward()
     {
         currentT++;
-        MoveToPosition();
     }
 
     void MoveSegmentToBackward()
     {
         currentT--;
-        //MoveToPosition();
     }
 
     private void Update()
@@ -159,10 +160,12 @@ public class Player : MonoBehaviour
         {
             AddNextSegment();
         }
+#if UNITY_EDITOR
         for (float i = 0; i < currentT; i += 0.02f)
         {
             Debug.DrawLine(Railway.GetPositionOnRailway(i), Railway.GetPositionOnRailway(i + 0.02f), Color.blue);
         }
+#endif
     }
 
     protected GameObject AddNextSegment()

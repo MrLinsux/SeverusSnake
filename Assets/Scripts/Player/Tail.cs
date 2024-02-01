@@ -6,9 +6,7 @@ using static Segment;
 
 public class Tail : MonoBehaviour
 {
-    public int speed = 1;
-    public int maxEmptyRails = 100;
-    protected Rigidbody2D _rb;
+    Rigidbody2D _rb;
     [SerializeField]
     float currentT = 0.5f;
     public float CurrentT { get { return currentT; } }
@@ -28,7 +26,7 @@ public class Tail : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentT >= maxEmptyRails)
+        if (currentT >= player.MaxEmptyRails)
         {
             // delete some emty rails
             Railway.DeleteFirst();
@@ -36,7 +34,7 @@ public class Tail : MonoBehaviour
         }
 
         // movement
-        currentT += speed * Time.fixedDeltaTime * 1.12f;
+        currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
         MoveToPosition();
     }
 
@@ -62,13 +60,11 @@ public class Tail : MonoBehaviour
     void MoveSegmentToForward()
     {
         currentT++;
-        MoveToPosition();
     }
 
     void MoveSegmentToBackward()
     {
         currentT--;
-        //MoveToPosition();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

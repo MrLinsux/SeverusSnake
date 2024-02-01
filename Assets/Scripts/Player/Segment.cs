@@ -8,10 +8,9 @@ using UnityEngine;
 
 public class Segment : MonoBehaviour
 {
-    public static float speed = 1f;
     [SerializeField]
     GameObject spawnApplePrefab;
-    protected Rigidbody2D _rb;
+    Rigidbody2D _rb;
     [SerializeField]
     float currentT = 1;
     public float CurrentT 
@@ -41,7 +40,7 @@ public class Segment : MonoBehaviour
     void FixedUpdate()
     {
         // movement
-        currentT += speed * Time.fixedDeltaTime * 1.12f;
+        currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
         MoveToPosition();
     }
 
@@ -57,13 +56,11 @@ public class Segment : MonoBehaviour
     void MoveSegmentToForward()
     {
         currentT++;
-        MoveToPosition();
     }
 
     void MoveSegmentToBackward()
     {
         currentT--;
-        //MoveToPosition();
     }
 
     void DestroySegment(float startT)
