@@ -12,9 +12,10 @@ public class Segment : MonoBehaviour
     GameObject spawnApplePrefab;
     Rigidbody2D _rb;
     [SerializeField]
+    float startT = 1;
     float currentT = 1;
     public float CurrentT 
-    {  get { return currentT; } set { currentT = value; } }
+    {  get { return currentT; } private set { currentT = value; } }
     Player player;
 
     // for cutting of tail
@@ -27,6 +28,16 @@ public class Segment : MonoBehaviour
     public static void InvokeDestroySegmentsEvent(float startT)
     {
         DestroySegments.Invoke(startT);
+    }
+
+    public void Init(float startT)
+    {
+        this.startT = startT;
+    }
+
+    private void Start()
+    {
+        currentT = startT;
     }
 
     private void Awake()

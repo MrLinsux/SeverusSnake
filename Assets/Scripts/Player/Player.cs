@@ -171,7 +171,7 @@ public class Player : MonoBehaviour
     protected GameObject AddNextSegment()
     {
         GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
-        newSegment.GetComponent<Segment>().CurrentT = currentT;
+        newSegment.GetComponent<Segment>().Init(currentT-1);
         MoveSegmentsBack.Invoke();
         currentT++;
 
