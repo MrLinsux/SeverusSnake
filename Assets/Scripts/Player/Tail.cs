@@ -11,10 +11,17 @@ public class Tail : MonoBehaviour
     float currentT = 0.5f;
     public float CurrentT { get { return currentT; } }
     Player player;
+    bool canMove = true;
+    public bool CanMove { get { return canMove; } }
+    void SetMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
 
     private void Awake()
     {
-        Player.MoveSegmentsBack += MoveSegmentToBackward;
+        Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
+        Player.CanMoveEvent += SetMove;
         player = GameObject.Find("Head").GetComponent<Player>();
     }
 
@@ -34,8 +41,11 @@ public class Tail : MonoBehaviour
         }
 
         // movement
-        currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
-        MoveToPosition();
+        if (CanMove)
+        {
+            currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
+            MoveToPosition();
+        }
     }
 
     void MoveToPosition()
@@ -82,5 +92,11 @@ public class Tail : MonoBehaviour
                 GameController.GameOver(false);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        Player.DecreaseLen();
+        Player.MoveSegmentsBackEvent -= MoveSegmentToBackward;
     }
 }

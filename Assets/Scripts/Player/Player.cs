@@ -69,6 +69,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     int maxEmptyRails = 100;
     public int MaxEmptyRails { get {  return maxEmptyRails; } }
+    bool canMove = true;
+    public bool CanMove { get { return canMove; } }
+    void SetMove(bool canMove)
+    {
+        this.canMove = canMove;
+        CanMoveEvent(canMove);
+    }
+
+    public delegate void CanMoveDelegate(bool canMove);
+    public static event CanMoveDelegate CanMoveEvent;
 
     Rigidbody2D _rb;
     [SerializeField]
@@ -77,8 +87,8 @@ public class Player : MonoBehaviour
     static int snakeLen;
     public static void DecreaseLen() => SnakeLen--;
 
-    public delegate void MoveSegment();
-    public static event MoveSegment MoveSegmentsBack;
+    public delegate void MoveSegmentDelegate();
+    public static event MoveSegmentDelegate MoveSegmentsBackEvent;
     [SerializeField]
     float currentT = 1.5f;
     public float CurrentT {  get { return currentT; } }
@@ -86,7 +96,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         snakeLen = 0;
-        MoveSegmentsBack += MoveSegmentToBackward;
+        MoveSegmentsBackEvent += MoveSegmentToBackward;
     }
 
     private void Start()
@@ -95,6 +105,7 @@ public class Player : MonoBehaviour
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
         CreateBody();
+        SetMove(false);
     }
 
     private void FixedUpdate()
@@ -131,8 +142,11 @@ public class Player : MonoBehaviour
         }
 
         // movement
-        currentT += speed * Time.fixedDeltaTime * 1.12f;
-        MoveToPosition();
+        if (CanMove)
+        {
+            currentT += speed * Time.fixedDeltaTime * 1.12f;
+            MoveToPosition();
+        }
     }
 
     void MoveToPosition()
@@ -156,6 +170,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            SetMove(!CanMove);
+        }
         if (Input.GetKeyDown(KeyCode.P))
         {
             AddNextSegment();
@@ -172,7 +190,7 @@ public class Player : MonoBehaviour
     {
         GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().Init(currentT-1);
-        MoveSegmentsBack.Invoke();
+        MoveSegmentsBackEvent?.Invoke();
         currentT++;
 
         SnakeLen++;
@@ -199,7 +217,7 @@ public class Player : MonoBehaviour
 
     public static void InvokeMoveSegmentToBack()
     {
-        MoveSegmentsBack.Invoke();
+        MoveSegmentsBackEvent?.Invoke();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -235,5 +253,10 @@ public class Player : MonoBehaviour
             Debug.Break();
             GameController.GameOver(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        MoveSegmentsBackEvent += MoveSegmentToBackward;
     }
 }

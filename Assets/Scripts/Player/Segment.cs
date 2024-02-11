@@ -17,6 +17,12 @@ public class Segment : MonoBehaviour
     public float CurrentT 
     {  get { return currentT; } private set { currentT = value; } }
     Player player;
+    bool canMove = true;
+    public bool CanMove { get { return canMove; } }
+    void SetMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
 
     // for cutting of tail
     public delegate void DestroySegmentsFromStartT(float startT);
@@ -43,7 +49,8 @@ public class Segment : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        Player.MoveSegmentsBack += MoveSegmentToBackward;
+        Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
+        Player.CanMoveEvent += SetMove;
         DestroySegments += DestroySegment;
         player = GameObject.Find("Head").GetComponent<Player>();
     }
@@ -51,8 +58,11 @@ public class Segment : MonoBehaviour
     void FixedUpdate()
     {
         // movement
-        currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
-        MoveToPosition();
+        if(CanMove)
+        {
+            currentT += player.Speed * Time.fixedDeltaTime * 1.12f;
+            MoveToPosition();
+        }
     }
 
     void MoveToPosition()
@@ -109,5 +119,6 @@ public class Segment : MonoBehaviour
     void OnDestroy()
     {
         Player.DecreaseLen();
+        Player.MoveSegmentsBackEvent -= MoveSegmentToBackward;
     }
 }
