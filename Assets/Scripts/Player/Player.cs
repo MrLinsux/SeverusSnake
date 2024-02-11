@@ -14,6 +14,21 @@ public class Player : MonoBehaviour
     Sprite[] jellySnake;        // 0 - segment; 1 - tail
     [SerializeField]
     Sprite[] standartSnake;     // 0 - head; 1 - segment; 2 - tail
+    Rigidbody2D _rb;
+
+    [SerializeField]
+    GameObject eater;
+    [SerializeField]
+    Tail tail;
+    [SerializeField]
+    int maxEmptyRails = 100;
+    [SerializeField]
+    GameObject segmentPref;
+    [SerializeField]
+    int startLen = 5;
+    [SerializeField]
+    int speed = 1;
+    public int Speed { get { return speed; } }
 
     [SerializeField]
     bool canEatWall = false;
@@ -56,18 +71,7 @@ public class Player : MonoBehaviour
         canEatSegment = false;
     }
 
-    [SerializeField]
-    int startLen = 5;
-    [SerializeField]
-    int speed = 1;
-    public int Speed { get { return speed; } }
 
-    [SerializeField]
-    GameObject eater;
-    [SerializeField]
-    Tail tail;
-    [SerializeField]
-    int maxEmptyRails = 100;
     public int MaxEmptyRails { get {  return maxEmptyRails; } }
     bool canMove = true;
     public bool CanMove { get { return canMove; } }
@@ -80,9 +84,6 @@ public class Player : MonoBehaviour
     public delegate void CanMoveDelegate(bool canMove);
     public static event CanMoveDelegate CanMoveEvent;
 
-    Rigidbody2D _rb;
-    [SerializeField]
-    GameObject segmentPref;
     public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.LenPoints=snakeLen; } }
     static int snakeLen;
     public static void DecreaseLen() => SnakeLen--;

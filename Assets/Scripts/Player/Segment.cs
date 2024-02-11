@@ -10,13 +10,16 @@ public class Segment : MonoBehaviour
 {
     [SerializeField]
     GameObject spawnApplePrefab;
-    Rigidbody2D _rb;
     [SerializeField]
     float startT = 1;
+
+    Rigidbody2D _rb;
+    Player player;
+
     float currentT = 1;
     public float CurrentT 
     {  get { return currentT; } private set { currentT = value; } }
-    Player player;
+
     bool canMove = true;
     public bool CanMove { get { return canMove; } }
     void SetMove(bool canMove)
