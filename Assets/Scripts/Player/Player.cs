@@ -236,10 +236,9 @@ public class Player : MonoBehaviour
                 }
                 else if (collision.contactCount == 1)
                 {
-                    var toPos = Railway.LastRail.GetRailPos(1, out var toDir);
+                    var toPos = Railway.GetPositionOnRailway(Mathf.Ceil(currentT), out var toDir);
                     toDir.Normalize();
-                    toDir *= 0.5f;
-                    toDir += toPos;
+                    toDir = toDir/2 + toPos;
                     worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
                     Debug.DrawLine(transform.position, worldPos, Color.red, 10);
                 }
