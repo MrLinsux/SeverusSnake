@@ -255,6 +255,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Tilemap wells))
+        {
+            Debug.Log("This is well!");
+        }
+    }
+
     private void OnDestroy()
     {
         MoveSegmentsBackEvent += MoveSegmentToBackward;
