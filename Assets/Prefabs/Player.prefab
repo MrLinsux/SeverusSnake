@@ -366,14 +366,15 @@ MonoBehaviour:
   - {fileID: -2056780929, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   - {fileID: 1756217273, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   - {fileID: 2013711883, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
-  canEatWall: 0
-  canEatSegment: 0
-  startLen: 0
-  speed: 2
+  rotationSound: {fileID: 8300000, guid: d11f4d0d7407c434f9e9ac68da8666a7, type: 3}
   eater: {fileID: 4097666044494635793}
   tail: {fileID: 4394044919509322562}
   maxEmptyRails: 10
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
+  startLen: 0
+  speed: 2
+  canEatWall: 0
+  canEatSegment: 0
   currentT: 1.5
 --- !u!212 &5117957088260896409
 SpriteRenderer:

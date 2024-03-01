@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     Sprite[] standartSnake;     // 0 - head; 1 - segment; 2 - tail
     Rigidbody2D _rb;
+    AudioController audioController;
 
     [SerializeField]
     GameObject eater;
@@ -102,6 +103,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        audioController = Camera.allCameras[0].GetComponent<AudioController>();
         _rb = GetComponent<Rigidbody2D>();
         // add start rails for head and tail
         Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
@@ -122,6 +124,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetAxis("Vertical") != 0)
         {
+            // rotation to up or down
             newDir = Input.GetAxis("Vertical") > 0 ? Vector2.up : Vector2.down;
             if (Mathf.Abs(nearFromDirection.y) <= 0.001f)
             {
@@ -130,6 +133,7 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetAxis("Horizontal") != 0)
         {
+            // rotation to right ot left
             newDir = Input.GetAxis("Horizontal") > 0 ? Vector2.right : Vector2.left;
             if (Mathf.Abs(nearFromDirection.x) <= 0.001f)
             {
@@ -250,6 +254,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            audioController.PlayDeadSound();
             Debug.Break();
             GameController.GameOver(false);
         }

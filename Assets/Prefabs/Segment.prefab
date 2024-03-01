@@ -171,5 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9732bb1ca13a54895cf5766684f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eatSound: {fileID: 8300000, guid: 3edfc5fd03a5c694293560198d8ecbc3, type: 3}
   spawnApplePrefab: {fileID: 3461622867875092407, guid: 64dde5dd3f25c8d4880024a414867723, type: 3}
   startT: 1

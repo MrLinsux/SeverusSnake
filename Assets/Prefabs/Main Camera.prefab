@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2900577563390703237}
   - component: {fileID: 7223681715959844768}
   - component: {fileID: 6194099331405312611}
+  - component: {fileID: 7563305964755162082}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -227,3 +228,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7563305964755162082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7533153133569488142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fa28b0be84a8649b9c1ba7cca7c50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSound: {fileID: 8300000, guid: 662480aa7e2f45a4cb0d54894bd395ae, type: 3}
+  loseSound: {fileID: 8300000, guid: 9be2e7ee383d0b749b37c091a26556bb, type: 3}
+  deadSound: {fileID: 8300000, guid: 116b99b6746a88e4bb39eedc84f7b6c1, type: 3}
+  snakeRotationSound: {fileID: 8300000, guid: d11f4d0d7407c434f9e9ac68da8666a7, type: 3}
+  eatAppleSound: {fileID: 8300000, guid: 97e5de87ed1c4d245b1f65c66511a6c5, type: 3}
+  eatEmptyAppleSound: {fileID: 8300000, guid: 24ded459e42ff2c479dbfe223709978c, type: 3}
+  eatBrickAppleSound: {fileID: 8300000, guid: d7dd921aec7f2de4e91201de00244a68, type: 3}
+  eatMarmeladeAppleSound: {fileID: 8300000, guid: afcfb12b7d880a2449847a8506a1fb0f, type: 3}
+  eatSegmentSound: {fileID: 8300000, guid: 3edfc5fd03a5c694293560198d8ecbc3, type: 3}
+  eatWallSound: {fileID: 8300000, guid: 13cb26c0eb4d66c4c9107c4a514b5ae8, type: 3}

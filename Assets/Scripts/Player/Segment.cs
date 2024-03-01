@@ -8,6 +8,10 @@ using UnityEngine;
 
 public class Segment : MonoBehaviour
 {
+    AudioController audioController;
+    [SerializeField]
+    AudioClip eatSound;
+
     [SerializeField]
     GameObject spawnApplePrefab;
     [SerializeField]
@@ -51,6 +55,7 @@ public class Segment : MonoBehaviour
 
     private void Awake()
     {
+        audioController = Camera.allCameras[0].GetComponent<AudioController>();
         _rb = GetComponent<Rigidbody2D>();
         Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
         Player.CanMoveEvent += SetMove;
@@ -113,6 +118,7 @@ public class Segment : MonoBehaviour
             }
             else
             {
+                audioController.PlayDeadSound();
                 Debug.Break();
                 GameController.GameOver(false);
             }
@@ -121,6 +127,7 @@ public class Segment : MonoBehaviour
 
     void OnDestroy()
     {
+        audioController.PlayAudio(eatSound);
         Player.DecreaseLen();
         Player.MoveSegmentsBackEvent -= MoveSegmentToBackward;
     }

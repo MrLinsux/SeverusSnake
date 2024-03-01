@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a8dfb5869f04f408168faa1a56c509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eatSound: {fileID: 8300000, guid: d7dd921aec7f2de4e91201de00244a68, type: 3}
 --- !u!212 &1181143294624320159
 SpriteRenderer:
   m_ObjectHideFlags: 0

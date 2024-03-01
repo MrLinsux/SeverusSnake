@@ -48,6 +48,7 @@ public class GameController : MonoBehaviour
     {
         if ((ApplePoints > _requiredApples) || (LenPoints > _requiredLen))
         {
+            Camera.allCameras[0].GetComponent<AudioController>().PlayLoseSound();
             GameOver(false);
         }
         if(((ApplePoints == -1) || (ApplePoints == _requiredApples)) && ((LenPoints == -1) || (LenPoints == _requiredLen)))
