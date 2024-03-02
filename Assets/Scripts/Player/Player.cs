@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
         canEatSegment = false;
     }
 
+    bool canPlayRotationSound = true;
+
 
     public int MaxEmptyRails { get {  return maxEmptyRails; } }
     bool canMove = true;
@@ -120,6 +122,7 @@ public class Player : MonoBehaviour
         if (currentT >= Railway.MaxT - 0.55f)
         {
             Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
+            canPlayRotationSound = true;
             nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
         }
         if (Input.GetAxis("Vertical") != 0)
@@ -129,6 +132,11 @@ public class Player : MonoBehaviour
             if (Mathf.Abs(nearFromDirection.y) <= 0.001f)
             {
                 Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
+                if (canPlayRotationSound)
+                {
+                    audioController.PlaySnakeRotationSound();
+                    canPlayRotationSound = false;
+                }
             }
         }
         else if (Input.GetAxis("Horizontal") != 0)
@@ -138,6 +146,11 @@ public class Player : MonoBehaviour
             if (Mathf.Abs(nearFromDirection.x) <= 0.001f)
             {
                 Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
+                if(canPlayRotationSound)
+                {
+                    audioController.PlaySnakeRotationSound();
+                    canPlayRotationSound = false;
+                }
             }
         }
         else if (new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized == (Vector2)transform.up)
