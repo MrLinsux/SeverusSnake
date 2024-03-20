@@ -101,6 +101,8 @@ public class Player : MonoBehaviour
     {
         snakeLen = 0;
         MoveSegmentsBackEvent += MoveSegmentToBackward;
+        CantEatSegmentNow();
+        CantEatWallNow();
     }
 
     private void Start()
