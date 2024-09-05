@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 47ea301a966864f4a8b4b49f94e27c0a
+guid: 773e13e977ab7914eaaa626ab4966431
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
@@ -69,9 +69,22 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -106,24 +119,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 128
-    resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ground_0
+      name: GroundTest_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 048c2eda8bdc220479f1e72ac8a20547
-      internalID: 500719311
+      spriteID: 18d726b692b0b854e9ab260229596515
+      internalID: 1247767632
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_1
+      name: GroundTest_1
       rect:
         serializedVersion: 2
         x: 32
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f116bc8eb35cd0e4d874eede4eb24cbc
-      internalID: 1465426085
+      spriteID: f170c9a6c38b7664098fd033be5561f3
+      internalID: -996968260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_2
+      name: GroundTest_2
       rect:
         serializedVersion: 2
         x: 64
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f60312d6ad409bc4cbdeccc4aac44042
-      internalID: 2008978671
+      spriteID: fe75b0c512ee35a48a7f7a410c3ff559
+      internalID: -2140370102
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_3
+      name: GroundTest_3
       rect:
         serializedVersion: 2
         x: 96
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8ca7c564cf81944e85ba13d47da15c7
-      internalID: 1657658671
+      spriteID: 922efc14ea7d8a54f848e561cc81ca7b
+      internalID: 1240464892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_4
+      name: GroundTest_4
       rect:
         serializedVersion: 2
         x: 128
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c2958f3fdb8d355468d4f34528df9209
-      internalID: 498885133
+      spriteID: ece54ac33d8600143896c08b9d33894f
+      internalID: 1718892323
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_5
+      name: GroundTest_5
       rect:
         serializedVersion: 2
         x: 160
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: caed5c0eca7573f4bbc2d80bcefcbf5e
-      internalID: 35370755
+      spriteID: a3cf6ce46ac67524184bab0eda45793f
+      internalID: 1968540716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_6
+      name: GroundTest_6
       rect:
         serializedVersion: 2
         x: 0
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9206779b7dedcee44bdd48ad924aadb7
-      internalID: -880172225
+      spriteID: 796b1270ab56a4d4e8dd491ec8c1ed22
+      internalID: -1259726789
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_7
+      name: GroundTest_7
       rect:
         serializedVersion: 2
         x: 32
@@ -284,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 47be704392f453147b53a15f262ac552
-      internalID: -894743900
+      spriteID: 4932f05109a0ca748854ad3d8907ad27
+      internalID: 1208873348
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_8
+      name: GroundTest_8
       rect:
         serializedVersion: 2
         x: 64
@@ -305,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e81b5356c58d3ff4d9eb1cf49a066756
-      internalID: -1506496806
+      spriteID: ba77fa0eedcde894c9354a2ce7b17e57
+      internalID: 1938502227
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_9
+      name: GroundTest_9
       rect:
         serializedVersion: 2
         x: 96
@@ -326,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d4e586808db65149bfc307634f3bc4e
-      internalID: 1519132251
+      spriteID: fa0449fe732dc004ca20636310184ebc
+      internalID: 1810107849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_10
+      name: GroundTest_10
       rect:
         serializedVersion: 2
         x: 128
@@ -347,14 +347,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 656576cdb47d15144b9078bbedc2a6ee
-      internalID: -1274409281
+      spriteID: 04f001350458ce84bb2f754da0165f16
+      internalID: 351712245
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_11
+      name: GroundTest_11
       rect:
         serializedVersion: 2
         x: 160
@@ -368,8 +368,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd0d595206a13f04f9f717fe9eb2701e
-      internalID: -945674111
+      spriteID: 407b6281969a4e64d80607d4a1fc9a21
+      internalID: 166195262
       vertices: []
       indices: 
       edges: []
@@ -385,18 +385,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Ground_0: 500719311
-      Ground_1: 1465426085
-      Ground_10: -1274409281
-      Ground_11: -945674111
-      Ground_2: 2008978671
-      Ground_3: 1657658671
-      Ground_4: 498885133
-      Ground_5: 35370755
-      Ground_6: -880172225
-      Ground_7: -894743900
-      Ground_8: -1506496806
-      Ground_9: 1519132251
+      GroundTest_0: 1247767632
+      GroundTest_1: -996968260
+      GroundTest_10: 351712245
+      GroundTest_11: 166195262
+      GroundTest_2: -2140370102
+      GroundTest_3: 1240464892
+      GroundTest_4: 1718892323
+      GroundTest_5: 1968540716
+      GroundTest_6: -1259726789
+      GroundTest_7: 1208873348
+      GroundTest_8: 1938502227
+      GroundTest_9: 1810107849
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
