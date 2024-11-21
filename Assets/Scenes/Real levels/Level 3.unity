@@ -443,7 +443,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8725737022115643985, guid: 5a1115b6f61bb5c46ab842a504e0665c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8725737022115643985, guid: 5a1115b6f61bb5c46ab842a504e0665c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1643,7 +1643,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 22
+      m_TileSpriteIndex: 26
       m_TileMatrixIndex: 3
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -1699,7 +1699,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
-  - first: {x: 0, y: 0, z: 0}
+  - first: {x: 1, y: 0, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
@@ -1769,7 +1769,7 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
-  - first: {x: -1, y: 1, z: 0}
+  - first: {x: 0, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
@@ -1779,11 +1779,11 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
-  - first: {x: 0, y: 1, z: 0}
+  - first: {x: 1, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 26
+      m_TileSpriteIndex: 22
       m_TileMatrixIndex: 3
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -2141,7 +2141,7 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: -825200755, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -1634580397, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
+    m_Data: {fileID: -837688998, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -628111319, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 2
@@ -2149,7 +2149,7 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: -262900922, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -837688998, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
+    m_Data: {fileID: -1634580397, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -651970277, guid: 350daafb7d446344e9bed7b84d7a2876, type: 3}
   - m_RefCount: 30
@@ -4041,7 +4041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2400548467983768491, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2400548467983768491, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: m_LocalPosition.y
