@@ -99,9 +99,12 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         snakeLen = 0;
+        MoveSegmentsBackEvent = null;
+        CanMoveEvent = null;
         MoveSegmentsBackEvent += MoveSegmentToBackward;
         CantEatSegmentNow();
         CantEatWallNow();
+        tail.Init();
     }
 
     private void Start()
@@ -208,11 +211,11 @@ public class Player : MonoBehaviour
     protected GameObject AddNextSegment()
     {
         GameObject newSegment = Instantiate(segmentPref, GameController.CurrentRailway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
-        newSegment.GetComponent<Segment>().Init(currentT-1);
+        newSegment.GetComponent<Segment>().Init(currentT);
         MoveSegmentsBackEvent?.Invoke();
         currentT++;
 
-        SnakeLen++;
+        SnakeLen+=1;
 
         return newSegment;
     }

@@ -18,7 +18,7 @@ public class Tail : MonoBehaviour
         this.canMove = canMove;
     }
 
-    private void Awake()
+    public void Init()
     {
         Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
         Player.CanMoveEvent += SetMove;

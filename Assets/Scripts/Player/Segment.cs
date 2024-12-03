@@ -46,21 +46,13 @@ public class Segment : MonoBehaviour
     public void Init(float startT)
     {
         this.startT = startT;
-    }
-
-    private void Start()
-    {
-        currentT = startT;
-    }
-
-    private void Awake()
-    {
         audioController = Camera.allCameras[0].GetComponent<AudioController>();
         _rb = GetComponent<Rigidbody2D>();
         Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
         Player.CanMoveEvent += SetMove;
         DestroySegments += DestroySegment;
         player = GameObject.Find("Head").GetComponent<Player>();
+        currentT = startT;
     }
 
     void FixedUpdate()

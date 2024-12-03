@@ -85,6 +85,7 @@ public class GameController : MonoBehaviour
         _applePoints = requiredApples == -1 ? -1 : 0;
         lenCounter.gameObject.SetActive(_requiredLen != -1);
         applesCounter.gameObject.SetActive(_requiredApples != -1);
+        LenPoints = ApplePoints = 0;
     }
 
     public bool CheckWin()
