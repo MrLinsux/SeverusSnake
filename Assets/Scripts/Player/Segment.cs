@@ -75,7 +75,7 @@ public class Segment : MonoBehaviour
 
     void MoveToPosition()
     {
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        var newPos = GameController.CurrentRailway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
@@ -102,7 +102,7 @@ public class Segment : MonoBehaviour
         }
         if(currentT <= startT-1)
         {
-            Instantiate(spawnApplePrefab, Railway.GetPositionOnRailway(currentT-1), Quaternion.identity);
+            Instantiate(spawnApplePrefab, GameController.CurrentRailway.GetPositionOnRailway(currentT-1), Quaternion.identity);
         }
     }
 
@@ -113,21 +113,21 @@ public class Segment : MonoBehaviour
             if (player.CanEatSegment)
             {
                 player.CantEatSegmentNow();
+                audioController.PlayAudio(eatSound);
+                GameController.CurrentController.AppleEaten();
                 DestroySegments.Invoke(currentT + 1);
-                GameController.ApplePoints++;
             }
             else
             {
                 audioController.PlayDeadSound();
                 Debug.Break();
-                GameController.GameOver(false);
+                GameController.CurrentController.GameOver(false);
             }
         }
     }
 
     void OnDestroy()
     {
-        audioController.PlayAudio(eatSound);
         Player.DecreaseLen();
         Player.MoveSegmentsBackEvent -= MoveSegmentToBackward;
     }

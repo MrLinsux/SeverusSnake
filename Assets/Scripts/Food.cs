@@ -18,10 +18,4 @@ public class Food : MonoBehaviour
     {
         transform.position = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
     }
-
-    private void OnDestroy()
-    {
-        audioController.PlayAudio(eatSound);
-        GameController.ApplePoints++;
-    }
 }

@@ -456,6 +456,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7223681715959844768, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
+      propertyPath: lenCounter
+      value: 
+      objectReference: {fileID: 1406867783}
+    - target: {fileID: 7223681715959844768, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
+      propertyPath: applesCounter
+      value: 
+      objectReference: {fileID: 2130135358}
+    - target: {fileID: 7251443616074509267, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
+      propertyPath: orthographic size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7533153133569488142, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
       propertyPath: m_Name
       value: Main Camera

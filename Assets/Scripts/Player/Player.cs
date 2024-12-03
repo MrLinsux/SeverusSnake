@@ -87,13 +87,12 @@ public class Player : MonoBehaviour
     public delegate void CanMoveDelegate(bool canMove);
     public static event CanMoveDelegate CanMoveEvent;
 
-    public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.LenPoints=snakeLen; } }
+    public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.CurrentController.SetLengthPoints(snakeLen); } }
     static int snakeLen;
     public static void DecreaseLen() => SnakeLen--;
 
     public delegate void MoveSegmentDelegate();
     public static event MoveSegmentDelegate MoveSegmentsBackEvent;
-    [SerializeField]
     float currentT = 1.5f;
     public float CurrentT {  get { return currentT; } }
 
@@ -110,22 +109,22 @@ public class Player : MonoBehaviour
         audioController = Camera.allCameras[0].GetComponent<AudioController>();
         _rb = GetComponent<Rigidbody2D>();
         // add start rails for head and tail
-        Railway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
+        GameController.CurrentRailway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
         CreateBody();
         SetMove(false);
     }
 
     private void FixedUpdate()
     {
-        Vector2 nearFrom = Railway.LastRail.GetRailPos(0, out Vector2 nearFromDirection);
-        Vector2 lastPoint = Railway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
+        Vector2 nearFrom = GameController.CurrentRailway.LastRail.GetRailPos(0, out Vector2 nearFromDirection);
+        Vector2 lastPoint = GameController.CurrentRailway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
         Vector2 newDir;
         // if on last rail then add new rail
-        if (currentT >= Railway.MaxT - 0.55f)
+        if (currentT >= GameController.CurrentRailway.MaxT - 0.55f)
         {
-            Railway.AddRail(lastPoint, lastPoint + lastPointDirection);
+            GameController.CurrentRailway.AddRail(lastPoint, lastPoint + lastPointDirection);
             canPlayRotationSound = true;
-            nearFrom = Railway.LastRail.GetRailPos(0, out nearFromDirection);
+            nearFrom = GameController.CurrentRailway.LastRail.GetRailPos(0, out nearFromDirection);
         }
         if (Input.GetAxis("Vertical") != 0)
         {
@@ -133,7 +132,7 @@ public class Player : MonoBehaviour
             newDir = Input.GetAxis("Vertical") > 0 ? Vector2.up : Vector2.down;
             if (Mathf.Abs(nearFromDirection.y) <= 0.001f)
             {
-                Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
+                GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 if (canPlayRotationSound)
                 {
                     audioController.PlaySnakeRotationSound();
@@ -147,7 +146,7 @@ public class Player : MonoBehaviour
             newDir = Input.GetAxis("Horizontal") > 0 ? Vector2.right : Vector2.left;
             if (Mathf.Abs(nearFromDirection.x) <= 0.001f)
             {
-                Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
+                GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 if(canPlayRotationSound)
                 {
                     audioController.PlaySnakeRotationSound();
@@ -158,7 +157,7 @@ public class Player : MonoBehaviour
         else if (new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized == (Vector2)transform.up)
         {
             // if press forward
-            Railway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection);
+            GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection);
         }
 
         // movement
@@ -171,7 +170,7 @@ public class Player : MonoBehaviour
 
     void MoveToPosition()
     {
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        var newPos = GameController.CurrentRailway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
@@ -201,14 +200,14 @@ public class Player : MonoBehaviour
 #if UNITY_EDITOR
         for (float i = 0; i < currentT; i += 0.02f)
         {
-            Debug.DrawLine(Railway.GetPositionOnRailway(i), Railway.GetPositionOnRailway(i + 0.02f), Color.blue);
+            Debug.DrawLine(GameController.CurrentRailway.GetPositionOnRailway(i), GameController.CurrentRailway.GetPositionOnRailway(i + 0.02f), Color.blue);
         }
 #endif
     }
 
     protected GameObject AddNextSegment()
     {
-        GameObject newSegment = Instantiate(segmentPref, Railway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
+        GameObject newSegment = Instantiate(segmentPref, GameController.CurrentRailway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
         newSegment.GetComponent<Segment>().Init(currentT-1);
         MoveSegmentsBackEvent?.Invoke();
         currentT++;
@@ -252,11 +251,11 @@ public class Player : MonoBehaviour
                 Vector3 worldPos = Vector3.zero;
                 if (collision.contactCount == 2)
                 {
-                    worldPos = new Vector3((float)Math.Round(Railway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(Railway.LastRail.GetRailPos(0.5f).y));
+                    worldPos = new Vector3((float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).y));
                 }
                 else if (collision.contactCount == 1)
                 {
-                    var toPos = Railway.GetPositionOnRailway(Mathf.Ceil(currentT), out var toDir);
+                    var toPos = GameController.CurrentRailway.GetPositionOnRailway(Mathf.Ceil(currentT), out var toDir);
                     toDir.Normalize();
                     toDir = toDir/2 + toPos;
                     worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
@@ -271,7 +270,7 @@ public class Player : MonoBehaviour
         {
             audioController.PlayDeadSound();
             Debug.Break();
-            GameController.GameOver(false);
+            GameController.CurrentController.GameOver(false);
         }
     }
 

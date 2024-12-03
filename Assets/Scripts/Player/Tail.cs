@@ -36,7 +36,7 @@ public class Tail : MonoBehaviour
         if (currentT >= player.MaxEmptyRails)
         {
             // delete some emty rails
-            Railway.DeleteFirst();
+            GameController.CurrentRailway.DeleteFirst();
             Player.InvokeMoveSegmentToBack();
         }
 
@@ -50,7 +50,7 @@ public class Tail : MonoBehaviour
 
     void MoveToPosition()
     {
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        var newPos = GameController.CurrentRailway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
@@ -60,7 +60,7 @@ public class Tail : MonoBehaviour
     {
         // warn: this is no physic movement!
         currentT = t;
-        var newPos = Railway.GetPositionOnRailway(currentT, out Vector2 moveVector);
+        var newPos = GameController.CurrentRailway.GetPositionOnRailway(currentT, out Vector2 moveVector);
         // rotate
         transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
         // move
@@ -89,7 +89,7 @@ public class Tail : MonoBehaviour
             else
             {
                 Debug.Break();
-                GameController.GameOver(false);
+                GameController.CurrentController.GameOver(false);
             }
         }
     }

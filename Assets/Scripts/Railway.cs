@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class Railway
+public class Railway
 {
-    public static Rail LastRail
+    public Rail LastRail
     {
         get
         {
@@ -18,17 +18,17 @@ public static class Railway
         }
     }
     // all rails
-    static List<Rail> rails = new List<Rail>();
-    public static float MaxT { get { return rails.Count; } }
-    public static void AddRail(Vector2 from, Vector2 to)
+    List<Rail> rails = new List<Rail>();
+    public float MaxT { get { return rails.Count; } }
+    public void AddRail(Vector2 from, Vector2 to)
     {
         rails.Add(new Rail(from, to));
     }
-    public static void DeleteFirst()
+    public void DeleteFirst()
     {
         rails.RemoveAt(0);
     }
-    public static Vector2 GetPositionOnRailway(float t)
+    public Vector2 GetPositionOnRailway(float t)
     {
         int _t = (int)t;
         try
@@ -40,7 +40,7 @@ public static class Railway
             return rails[0].GetRailPos(0);
         }
     }
-    public static Vector2 GetPositionOnRailway(float t, out Vector2 direction, bool isHead = false)
+    public Vector2 GetPositionOnRailway(float t, out Vector2 direction, bool isHead = false)
     {
         int _t = (int)t;
         try
