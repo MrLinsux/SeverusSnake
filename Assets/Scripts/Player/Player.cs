@@ -235,6 +235,10 @@ public class Player : MonoBehaviour
         // spawn n segments
         // n=0 then only head and tail
         AddNextSegments(startLen);
+        if(startLen > 0)
+        {
+            tail.transform.position = tail.transform.position - tail.transform.up;
+        }
     }
 
     public static void InvokeMoveSegmentToBack()
