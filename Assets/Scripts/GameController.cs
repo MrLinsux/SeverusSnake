@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
             if (_applePoints != -1)
             {
                 _applePoints = value;
-                lenCounter.text = (_requiredApples - value).ToString();
+                applesCounter.text = (_requiredApples - value).ToString();
                 CheckWin();
             }
         }
