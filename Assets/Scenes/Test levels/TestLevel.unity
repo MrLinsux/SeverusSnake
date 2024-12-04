@@ -466,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 1406867783}
     - target: {fileID: 7223681715959844768, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
       propertyPath: requiredLen
-      value: 5
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7223681715959844768, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
       propertyPath: applesCounter
@@ -474,7 +474,7 @@ PrefabInstance:
       objectReference: {fileID: 2130135358}
     - target: {fileID: 7223681715959844768, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
       propertyPath: requiredApples
-      value: 5
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7251443616074509267, guid: 24b385df77c723d4eaa42f47ca5d40ec, type: 3}
       propertyPath: orthographic size
@@ -4896,7 +4896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: startLen
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8538990209454009065, guid: d44fb1646af98c941ae082ff289c1d0f, type: 3}
       propertyPath: jellySnake.Array.size

@@ -272,7 +272,6 @@ public class Player : MonoBehaviour
         else
         {
             audioController.PlayDeadSound();
-            Debug.Break();
             GameController.CurrentController.GameOver(false);
         }
     }

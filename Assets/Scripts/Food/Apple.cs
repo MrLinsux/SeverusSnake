@@ -10,6 +10,7 @@ public class Apple : Food
         if (collision.gameObject.TryGetComponent(out player))
         {
             player.AddNextSegments(1);
+            GameController.CurrentController.AppleEaten();
             Destroy(gameObject);
         }
     }
@@ -20,6 +21,7 @@ public class Apple : Food
         if (collision.gameObject.TryGetComponent(out player))
         {
             player.AddNextSegments(1);
+            GameController.CurrentController.AppleEaten();
             Destroy(gameObject);
         }
     }
