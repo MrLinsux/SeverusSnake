@@ -93,17 +93,17 @@ public class GameController : MonoBehaviour
         if ((ApplePoints > _requiredApples) || (LenPoints > _requiredLen))
         {
             Camera.allCameras[0].GetComponent<AudioController>().PlayLoseSound();
-            GameOver(false);
+            GameOver(false, "too many points");
         }
         if(((ApplePoints == -1) || (ApplePoints == _requiredApples)) && ((LenPoints == -1) || (LenPoints == _requiredLen)))
         {
-            GameOver(true);
+            GameOver(true, "all good");
         }
 
         return ((ApplePoints == -1) || (ApplePoints == _requiredApples)) && ((LenPoints == -1) || (LenPoints == _requiredLen));
     }
 
-    public void GameOver(bool isWin)
+    public void GameOver(bool isWin, string reason)
     {
         if (isWin)
         {
@@ -112,7 +112,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("You Lose");
+            Debug.Log("You Lose because " + reason);
         }
         //Debug.Break();
         SceneManager.LoadScene("MainMenu");

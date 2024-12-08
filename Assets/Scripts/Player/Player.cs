@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -9,111 +10,91 @@ using static Segment;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    Sprite brickSnake;          // head
+    Sprite brickSnakeSprite;          // head
     [SerializeField]
-    Sprite[] jellySnake;        // 0 - segment; 1 - tail
+    Sprite[] jellySnakeSprites;        // 0 - segment; 1 - tail
     [SerializeField]
-    Sprite[] standartSnake;     // 0 - head; 1 - segment; 2 - tail
-    Rigidbody2D _rb;
-    AudioController audioController;
+    Sprite[] standartSnakeSprites;     // 0 - head; 1 - segment; 2 - tail
+    AudioController _audioController;
 
-    [SerializeField]
-    GameObject eater;
-    [SerializeField]
-    Tail tail;
-    [SerializeField]
-    int maxEmptyRails = 100;
+    Segment tail, head;
+    List<Segment> body = new List<Segment>();
+
     [SerializeField]
     GameObject segmentPref;
     [SerializeField]
     int startLen = 5;
     [SerializeField]
-    int speed = 1;
-    public int Speed { get { return speed; } }
+    float speed = 1;
+    public float Speed { get { return speed; } }
 
     [SerializeField]
     bool canEatWall = false;
-    public bool CanEatWall { get { return canEatSegment; } }
-    public void CanEatWallNow()
+    public bool CanEatWall { get { return canEatWall; } }
+    public void SetCanEatWall(bool canEat)
     {
-        SpriteRenderer bodySprites = transform.parent.GetComponentInChildren<SpriteRenderer>();
-        bodySprites.sprite = brickSnake;
-        canEatWall = true;
-    }
-    public void CantEatWallNow()
-    {
-        SpriteRenderer bodySprites = transform.parent.GetComponentInChildren<SpriteRenderer>();
-        bodySprites.sprite = standartSnake[0];
-        canEatWall = false;
+        SpriteRenderer headSprite = head.GetComponent<SpriteRenderer>();
+        headSprite.sprite = canEat ? brickSnakeSprite : standartSnakeSprites[0];
+        canEatWall = canEat;
     }
     [SerializeField]
     bool canEatSegment = false;
     public bool CanEatSegment { get { return canEatSegment; } }
-    public void CanEatSegmentNow()
+    public void SetCanEatSegment(bool canEat)
     {
-        SpriteRenderer[] bodySprites = transform.parent.GetComponentsInChildren<SpriteRenderer>();
-        for(int i = 2; i < bodySprites.Length; i++)
+        SpriteRenderer[] bodySprites = new SpriteRenderer[body.Count];
+        for (int i = 0; i < bodySprites.Length; i++)
+            bodySprites[i] = body[i].GetComponent<SpriteRenderer>();
+
+        for (int i = 0; i < bodySprites.Length; i++)
         {
-            bodySprites[i].sprite = jellySnake[0];   // segments of snake
+            bodySprites[i].sprite = canEat ? jellySnakeSprites[0] : standartSnakeSprites[1];   // segments of snake
         }
-        segmentPref.GetComponent<SpriteRenderer>().sprite = jellySnake[0];   // segment prefab
-        bodySprites[1].sprite = jellySnake[1];      // tail
-        canEatSegment = true;
-    }
-    public void CantEatSegmentNow()
-    {
-        SpriteRenderer[] bodySprites = transform.parent.GetComponentsInChildren<SpriteRenderer>();
-        for (int i = 2; i < bodySprites.Length; i++)
-        {
-            bodySprites[i].sprite = standartSnake[1];   // segments of snake
-        }
-        segmentPref.GetComponent<SpriteRenderer>().sprite = standartSnake[1];   // segment prefab
-        bodySprites[1].sprite = standartSnake[2];      // tail
-        canEatSegment = false;
+        segmentPref.GetComponent<SpriteRenderer>().sprite = canEat ? jellySnakeSprites[0] : standartSnakeSprites[1];   // segment prefab
+        tail.GetComponent<SpriteRenderer>().sprite = canEat ? jellySnakeSprites[1] : standartSnakeSprites[2];      // tail
+        canEatSegment = canEat;
     }
 
+    [SerializeField]
     bool canPlayRotationSound = true;
 
-
-    public int MaxEmptyRails { get {  return maxEmptyRails; } }
     bool canMove = true;
     public bool CanMove { get { return canMove; } }
     void SetMove(bool canMove)
     {
+        foreach(Segment segment in body)
+        {
+            segment.SetMove(canMove);
+        }
+        head.SetMove(canMove);
+        tail.SetMove(canMove);
+
         this.canMove = canMove;
-        CanMoveEvent(canMove);
     }
 
-    public delegate void CanMoveDelegate(bool canMove);
-    public static event CanMoveDelegate CanMoveEvent;
-
-    public static int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.CurrentController.SetLengthPoints(snakeLen); } }
+    public int SnakeLen { get { return snakeLen; } set { snakeLen = value; GameController.CurrentController.SetLengthPoints(snakeLen); } }
     static int snakeLen;
-    public static void DecreaseLen() => SnakeLen--;
-
-    public delegate void MoveSegmentDelegate();
-    public static event MoveSegmentDelegate MoveSegmentsBackEvent;
-    float currentT = 1.5f;
-    public float CurrentT {  get { return currentT; } }
-
-    private void Awake()
+    public void DecreaseLen(Segment segment)
     {
-        snakeLen = 0;
-        MoveSegmentsBackEvent = null;
-        CanMoveEvent = null;
-        MoveSegmentsBackEvent += MoveSegmentToBackward;
-        CantEatSegmentNow();
-        CantEatWallNow();
-        tail.Init();
+        body.Remove(segment);
+        SetSegmentAsTail(body[0]);
+        SnakeLen--;
     }
+
+    public float CurrentT {  get { return head.CurrentT; } }        // main parameter is t of head
 
     private void Start()
     {
-        audioController = Camera.allCameras[0].GetComponent<AudioController>();
-        _rb = GetComponent<Rigidbody2D>();
         // add start rails for head and tail
         GameController.CurrentRailway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
+        snakeLen = 0;
+        _audioController = Camera.allCameras[0].GetComponent<AudioController>();
+        head = GetComponentInChildren<Segment>();
+        head.Init(1.5f, this);
         CreateBody();
+        
+        SetCanEatSegment(canEatSegment);
+        SetCanEatWall(canEatWall);
         SetMove(false);
     }
 
@@ -123,7 +104,7 @@ public class Player : MonoBehaviour
         Vector2 lastPoint = GameController.CurrentRailway.LastRail.GetRailPos(1, out Vector2 lastPointDirection);
         Vector2 newDir;
         // if on last rail then add new rail
-        if (currentT >= GameController.CurrentRailway.MaxT - 0.55f)
+        if (CurrentT >= GameController.CurrentRailway.MaxT - 0.55f)
         {
             GameController.CurrentRailway.AddRail(lastPoint, lastPoint + lastPointDirection);
             canPlayRotationSound = true;
@@ -138,7 +119,7 @@ public class Player : MonoBehaviour
                 GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 if (canPlayRotationSound)
                 {
-                    audioController.PlaySnakeRotationSound();
+                    _audioController.PlaySnakeRotationSound();
                     canPlayRotationSound = false;
                 }
             }
@@ -152,7 +133,7 @@ public class Player : MonoBehaviour
                 GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection / 2 + newDir / 2);
                 if(canPlayRotationSound)
                 {
-                    audioController.PlaySnakeRotationSound();
+                    _audioController.PlaySnakeRotationSound();
                     canPlayRotationSound = false;
                 }
             }
@@ -162,32 +143,20 @@ public class Player : MonoBehaviour
             // if press forward
             GameController.CurrentRailway.LastRail = new Railway.Rail(nearFrom, nearFrom + nearFromDirection);
         }
-
-        // movement
-        if (CanMove)
-        {
-            currentT += speed * Time.fixedDeltaTime * 1.12f;
-            MoveToPosition();
-        }
     }
 
-    void MoveToPosition()
+    void MoveBodyToForward()
     {
-        var newPos = GameController.CurrentRailway.GetPositionOnRailway(currentT, out Vector2 moveVector);
-        // rotate
-        transform.eulerAngles = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, moveVector));
-        // move
-        _rb.MovePosition(newPos);
+        foreach(var segment in body)
+            segment.MoveSegmentToForward();
+        tail.MoveSegmentToForward();
     }
 
-    void MoveSegmentToForward()
+    void MoveBodyToBackward()
     {
-        currentT++;
-    }
-
-    void MoveSegmentToBackward()
-    {
-        currentT--;
+        foreach (var segment in body)
+            segment.MoveSegmentToBackward();
+        tail.MoveSegmentToBackward();
     }
 
     private void Update()
@@ -201,27 +170,59 @@ public class Player : MonoBehaviour
             AddNextSegment();
         }
 #if UNITY_EDITOR
-        for (float i = 0; i < currentT; i += 0.02f)
+        for (float i = 0; i < CurrentT; i += 0.02f)
         {
             Debug.DrawLine(GameController.CurrentRailway.GetPositionOnRailway(i), GameController.CurrentRailway.GetPositionOnRailway(i + 0.02f), Color.blue);
         }
 #endif
     }
 
-    protected GameObject AddNextSegment()
+    Segment AddTailSegment()
     {
-        GameObject newSegment = Instantiate(segmentPref, GameController.CurrentRailway.GetPositionOnRailway(currentT-1), transform.rotation, transform.parent);
-        newSegment.GetComponent<Segment>().Init(currentT);
-        MoveSegmentsBackEvent?.Invoke();
-        currentT++;
+        Segment tail = Instantiate(
+            segmentPref, 
+            GameController.CurrentRailway.GetPositionOnRailway(CurrentT - 1), 
+            head.transform.rotation, 
+            transform).GetComponent<Segment>();
+        tail.Init(CurrentT-1, this);
 
-        SnakeLen+=1;
+        tail.AddComponent<SpriteMask>().sprite = standartSnakeSprites[1];   // sprite of mask is standart segment
+        tail.GetComponent<SpriteRenderer>().sprite = standartSnakeSprites[2];
+        tail.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None;
+
+        return tail;
+    }
+
+    void SetSegmentAsTail(Segment segment)
+    {
+        if (segment == null)
+            return;
+        segment.AddComponent<SpriteMask>().sprite = standartSnakeSprites[1];   // sprite of mask is standart segment
+        segment.GetComponent<SpriteRenderer>().sprite = standartSnakeSprites[2];
+        segment.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None;
+        tail = segment;
+    }
+
+    public Segment AddNextSegment()
+    {
+        Segment newSegment = Instantiate(
+            segmentPref, 
+            GameController.CurrentRailway.GetPositionOnRailway(CurrentT - 1), 
+            head.transform.rotation, 
+            transform).GetComponent<Segment>();
+        newSegment.Init(CurrentT-1, this);
+        MoveBodyToBackward();
+
+        SnakeLen +=1;
+
+        body.Add(newSegment);
 
         return newSegment;
     }
-    public GameObject AddNextSegments(int n)
+
+    public Segment AddNextSegments(int n)
     {
-        GameObject newSegment = null;
+        Segment newSegment = null;
         for (int i = 0; i < n; i++)
         {
             newSegment = AddNextSegment();
@@ -234,62 +235,7 @@ public class Player : MonoBehaviour
     {
         // spawn n segments
         // n=0 then only head and tail
+        tail = AddTailSegment();
         AddNextSegments(startLen);
-        if(startLen > 0)
-        {
-            tail.transform.position = tail.transform.position - tail.transform.up;
-        }
-    }
-
-    public static void InvokeMoveSegmentToBack()
-    {
-        MoveSegmentsBackEvent?.Invoke();
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // is wall
-        if (canEatWall)
-        {
-            Tilemap walls;
-            if(collision.gameObject.TryGetComponent(out walls))
-            {
-                var grid = walls.layoutGrid;
-                Vector3 worldPos = Vector3.zero;
-                if (collision.contactCount == 2)
-                {
-                    worldPos = new Vector3((float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).y));
-                }
-                else if (collision.contactCount == 1)
-                {
-                    var toPos = GameController.CurrentRailway.GetPositionOnRailway(Mathf.Ceil(currentT), out var toDir);
-                    toDir.Normalize();
-                    toDir = toDir/2 + toPos;
-                    worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
-                    Debug.DrawLine(transform.position, worldPos, Color.red, 10);
-                }
-                Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
-                walls.SetTile(eatedWallPos, null);
-            }
-            CantEatWallNow();
-        }
-        else
-        {
-            audioController.PlayDeadSound();
-            GameController.CurrentController.GameOver(false);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out Tilemap wells))
-        {
-            Debug.Log("This is well!");
-        }
-    }
-
-    private void OnDestroy()
-    {
-        MoveSegmentsBackEvent += MoveSegmentToBackward;
     }
 }

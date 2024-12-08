@@ -5,7 +5,9 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Segment : MonoBehaviour
 {
     AudioController audioController;
@@ -14,8 +16,6 @@ public class Segment : MonoBehaviour
 
     [SerializeField]
     GameObject spawnApplePrefab;
-    [SerializeField]
-    float startT = 1;
 
     Rigidbody2D _rb;
     Player player;
@@ -26,7 +26,7 @@ public class Segment : MonoBehaviour
 
     bool canMove = true;
     public bool CanMove { get { return canMove; } }
-    void SetMove(bool canMove)
+    public void SetMove(bool canMove)
     {
         this.canMove = canMove;
     }
@@ -43,15 +43,12 @@ public class Segment : MonoBehaviour
         DestroySegments.Invoke(startT);
     }
 
-    public void Init(float startT)
+    public void Init(float startT, Player player)
     {
-        this.startT = startT;
         audioController = Camera.allCameras[0].GetComponent<AudioController>();
         _rb = GetComponent<Rigidbody2D>();
-        Player.MoveSegmentsBackEvent += MoveSegmentToBackward;
-        Player.CanMoveEvent += SetMove;
         DestroySegments += DestroySegment;
-        player = GameObject.Find("Head").GetComponent<Player>();
+        this.player = player;
         currentT = startT;
     }
 
@@ -74,12 +71,12 @@ public class Segment : MonoBehaviour
         _rb.MovePosition(newPos);
     }
 
-    void MoveSegmentToForward()
+    public void MoveSegmentToForward()
     {
         currentT++;
     }
 
-    void MoveSegmentToBackward()
+    public void MoveSegmentToBackward()
     {
         currentT--;
     }
@@ -90,6 +87,8 @@ public class Segment : MonoBehaviour
         if(currentT<=startT)
         {
             DestroySegments -= DestroySegment;
+            if (player != null)
+                player.DecreaseLen(this);
             Destroy(gameObject);
         }
         if(currentT <= startT-1)
@@ -104,7 +103,7 @@ public class Segment : MonoBehaviour
         {
             if (player.CanEatSegment)
             {
-                player.CantEatSegmentNow();
+                player.SetCanEatSegment(false);
                 audioController.PlayAudio(eatSound);
                 GameController.CurrentController.AppleEaten();
                 DestroySegments.Invoke(currentT + 1);
@@ -113,14 +112,43 @@ public class Segment : MonoBehaviour
             {
                 audioController.PlayDeadSound();
                 Debug.Break();
-                GameController.CurrentController.GameOver(false);
+                GameController.CurrentController.GameOver(false, "try to eat standart segment");
             }
         }
     }
 
-    void OnDestroy()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Player.DecreaseLen();
-        Player.MoveSegmentsBackEvent -= MoveSegmentToBackward;
+        // is wall
+        if (player.CanEatWall)
+        {
+            Tilemap walls;
+            if (collision.gameObject.TryGetComponent(out walls))
+            {
+                var grid = walls.layoutGrid;
+                Vector3 worldPos = Vector3.zero;
+                if (collision.contactCount == 2)
+                {
+                    worldPos = new Vector3((float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).x), (float)Math.Round(GameController.CurrentRailway.LastRail.GetRailPos(0.5f).y));
+                }
+                else if (collision.contactCount == 1)
+                {
+                    var toPos = GameController.CurrentRailway.GetPositionOnRailway(Mathf.Ceil(CurrentT), out var toDir);
+                    toDir.Normalize();
+                    toDir = toDir / 2 + toPos;
+                    worldPos = new Vector3((float)Math.Round(toDir.x), (float)Math.Round(toDir.y));
+#if UNITY_EDITOR
+                    Debug.DrawLine(transform.position, worldPos, Color.red, 10);
+#endif
+                }
+                Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
+                walls.SetTile(eatedWallPos, null);
+            }
+            player.SetCanEatWall(false);
+        }
+        else
+        {
+            GameController.CurrentController.GameOver(false, "kiss bricks without protection");
+        }
     }
 }

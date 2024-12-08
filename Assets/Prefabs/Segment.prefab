@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 537680605, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
+  m_Sprite: {fileID: 1756217273, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!50 &8020354415164964118
 Rigidbody2D:
@@ -157,7 +157,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.4}
+  m_Size: {x: 0.2, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &3342262191722810646
 MonoBehaviour:
@@ -173,4 +173,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eatSound: {fileID: 8300000, guid: 3edfc5fd03a5c694293560198d8ecbc3, type: 3}
   spawnApplePrefab: {fileID: 3461622867875092407, guid: 64dde5dd3f25c8d4880024a414867723, type: 3}
-  startT: 1
