@@ -159,7 +159,7 @@ MonoBehaviour:
   - {fileID: 1756217273, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   - {fileID: 2013711883, guid: efdd6f4eaa87ed44e880ead014de0d1c, type: 3}
   segmentPref: {fileID: 4126889450729719784, guid: 11ddf9a874d1288448701c9de813acc1, type: 3}
-  startLen: 5
+  startLen: 0
   speed: 2
   canEatWall: 0
   canEatSegment: 0
@@ -193,7 +193,7 @@ Transform:
   m_GameObject: {fileID: 9004793513654946035}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
