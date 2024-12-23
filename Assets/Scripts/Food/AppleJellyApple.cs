@@ -7,9 +7,9 @@ public class AppleJellyApple : Food
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player;
-        if (collision.gameObject.TryGetComponent(out player))
+        if (collision.transform.parent.parent.TryGetComponent(out player))
         {
-            player.CanEatSegmentNow();
+            player.SetCanEatSegment(true);
             GameController.CurrentController.AppleEaten();
             Destroy(gameObject);
         }
@@ -18,9 +18,9 @@ public class AppleJellyApple : Food
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Player player;
-        if (collision.gameObject.TryGetComponent(out player))
+        if (collision.transform.parent.parent.TryGetComponent(out player))
         {
-            player.CanEatSegmentNow();
+            player.SetCanEatSegment(true);
             GameController.CurrentController.AppleEaten();
             Destroy(gameObject);
         }

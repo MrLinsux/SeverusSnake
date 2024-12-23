@@ -7,7 +7,7 @@ public class EmptyApple : Food
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player;
-        if (collision.gameObject.TryGetComponent(out player))
+        if (collision.transform.parent.parent.TryGetComponent(out player))
         {
             GameController.CurrentController.AppleEaten();
             Destroy(gameObject);
@@ -17,7 +17,7 @@ public class EmptyApple : Food
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Player player;
-        if (collision.gameObject.TryGetComponent(out player))
+        if (collision.transform.parent.parent.TryGetComponent(out player))
         {
             GameController.CurrentController.AppleEaten();
             Destroy(gameObject);

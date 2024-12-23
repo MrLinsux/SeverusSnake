@@ -37,7 +37,7 @@ public class Railway
         }
         catch
         {
-            return rails[0].GetRailPos(0);
+            return rails[0].GetRailPos(0.5f);
         }
     }
     public Vector2 GetPositionOnRailway(float t, out Vector2 direction, bool isHead = false)
@@ -49,7 +49,7 @@ public class Railway
         }
         catch
         {
-            return rails[0].GetRailPos(0, out direction, isHead);
+            return rails[0].GetRailPos(0.5f, out direction, isHead);
         }
     }
 
