@@ -144,7 +144,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7bc8f1d54e243de4f95fb7f8294246ad, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.202
+  m_Volume: 0.576
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -244,9 +244,3 @@ MonoBehaviour:
   loseSound: {fileID: 8300000, guid: 9be2e7ee383d0b749b37c091a26556bb, type: 3}
   deadSound: {fileID: 8300000, guid: 116b99b6746a88e4bb39eedc84f7b6c1, type: 3}
   snakeRotationSound: {fileID: 8300000, guid: d11f4d0d7407c434f9e9ac68da8666a7, type: 3}
-  eatAppleSound: {fileID: 8300000, guid: 97e5de87ed1c4d245b1f65c66511a6c5, type: 3}
-  eatEmptyAppleSound: {fileID: 8300000, guid: 24ded459e42ff2c479dbfe223709978c, type: 3}
-  eatBrickAppleSound: {fileID: 8300000, guid: d7dd921aec7f2de4e91201de00244a68, type: 3}
-  eatMarmeladeAppleSound: {fileID: 8300000, guid: afcfb12b7d880a2449847a8506a1fb0f, type: 3}
-  eatSegmentSound: {fileID: 8300000, guid: 3edfc5fd03a5c694293560198d8ecbc3, type: 3}
-  eatWallSound: {fileID: 8300000, guid: 13cb26c0eb4d66c4c9107c4a514b5ae8, type: 3}

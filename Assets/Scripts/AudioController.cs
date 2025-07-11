@@ -18,20 +18,6 @@ public class AudioController : MonoBehaviour
     [SerializeField]
     AudioClip snakeRotationSound;
 
-    // eating
-    [SerializeField]
-    AudioClip eatAppleSound;
-    [SerializeField]
-    AudioClip eatEmptyAppleSound;
-    [SerializeField]
-    AudioClip eatBrickAppleSound;
-    [SerializeField]
-    AudioClip eatMarmeladeAppleSound;
-    [SerializeField]
-    AudioClip eatSegmentSound;
-    [SerializeField]
-    AudioClip eatWallSound;
-
     public void PlayAudio(AudioClip clip)
     {
         GetComponent<AudioSource>().PlayOneShot(clip);

@@ -9,6 +9,7 @@ public class Apple : Food
         {
             player.AddNextSegment();
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }
@@ -20,6 +21,7 @@ public class Apple : Food
         {
             player.AddNextSegment();
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }

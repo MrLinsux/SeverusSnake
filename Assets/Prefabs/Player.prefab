@@ -337,4 +337,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eatSound: {fileID: 8300000, guid: 97e5de87ed1c4d245b1f65c66511a6c5, type: 3}
+  wallEatSound: {fileID: 8300000, guid: 13cb26c0eb4d66c4c9107c4a514b5ae8, type: 3}
   spawnApplePrefab: {fileID: 3461622867875092407, guid: 64dde5dd3f25c8d4880024a414867723, type: 3}

@@ -13,6 +13,8 @@ public class Segment : MonoBehaviour
     AudioController audioController;
     [SerializeField]
     AudioClip eatSound;
+    [SerializeField]
+    AudioClip wallEatSound;
 
     [SerializeField]
     GameObject spawnApplePrefab;
@@ -143,6 +145,7 @@ public class Segment : MonoBehaviour
                 }
                 Vector3Int eatedWallPos = grid.WorldToCell(worldPos);
                 walls.SetTile(eatedWallPos, null);
+                audioController.PlayAudio(wallEatSound);
             }
             player.SetCanEatWall(false);
         }

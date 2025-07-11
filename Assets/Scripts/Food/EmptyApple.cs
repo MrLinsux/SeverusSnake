@@ -10,6 +10,7 @@ public class EmptyApple : Food
         if (collision.transform.parent.parent.TryGetComponent(out player))
         {
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }
@@ -20,6 +21,7 @@ public class EmptyApple : Food
         if (collision.transform.parent.parent.TryGetComponent(out player))
         {
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }

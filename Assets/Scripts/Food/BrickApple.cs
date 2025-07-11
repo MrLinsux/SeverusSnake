@@ -11,6 +11,7 @@ public class BrickApple : Food
         {
             player.SetCanEatWall(true);
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }
@@ -22,6 +23,7 @@ public class BrickApple : Food
         {
             player.SetCanEatWall(true);
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }

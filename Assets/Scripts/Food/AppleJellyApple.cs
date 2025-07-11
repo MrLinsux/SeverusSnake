@@ -11,6 +11,7 @@ public class AppleJellyApple : Food
         {
             player.SetCanEatSegment(true);
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }
@@ -22,6 +23,7 @@ public class AppleJellyApple : Food
         {
             player.SetCanEatSegment(true);
             GameController.CurrentController.AppleEaten();
+            PlayEatSound();
             Destroy(gameObject);
         }
     }
