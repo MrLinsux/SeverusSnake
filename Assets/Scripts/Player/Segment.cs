@@ -22,6 +22,7 @@ public class Segment : MonoBehaviour
     Rigidbody2D _rb;
     Player player;
 
+    [SerializeField]
     float currentT = 1;
     public float CurrentT 
     {  get { return currentT; } private set { currentT = value; } }

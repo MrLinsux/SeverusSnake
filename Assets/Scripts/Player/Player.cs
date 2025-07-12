@@ -201,6 +201,7 @@ public class Player : MonoBehaviour
         segment.GetComponent<SpriteRenderer>().sprite = standartSnakeSprites[2];
         segment.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None;
         tail = segment;
+        body.Remove(segment);
     }
 
     public Segment AddNextSegment()
