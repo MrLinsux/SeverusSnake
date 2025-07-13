@@ -56,6 +56,13 @@ public class Player : MonoBehaviour
     }
 
     [SerializeField]
+    bool canFlight = false;
+    public bool CanFlight { 
+        get { return canFlight; }
+        set { canFlight = value; }
+    }
+
+    [SerializeField]
     bool canPlayRotationSound = true;
 
     bool canMove = true;

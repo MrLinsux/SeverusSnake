@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1181143294624320159}
   - component: {fileID: 5345536477815491492}
   - component: {fileID: 8961988694391124506}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: BrickApple
   m_TagString: Food
   m_Icon: {fileID: 0}
