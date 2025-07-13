@@ -85,8 +85,15 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        // normilize rotation
+        if (transform.eulerAngles.z % 90 != 0)
+            Debug.LogWarning("Angle is not right: " +  transform.eulerAngles.z);
         // add start rails for head and tail
-        GameController.CurrentRailway.AddRail(new Vector2(transform.position.x, transform.position.y - 1.5f), new Vector2(transform.position.x, transform.position.y - 0.5f));
+        float angle = transform.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI / 2;
+        GameController.CurrentRailway.AddRail(
+            new Vector2(transform.position.x - 1.5f * Mathf.Cos(angle), transform.position.y - 1.5f * Mathf.Sin(angle)), 
+            new Vector2(transform.position.x - 0.5f * Mathf.Cos(angle), transform.position.y - 0.5f * Mathf.Sin(angle))
+            );
         snakeLen = 0;
         _audioController = Camera.allCameras[0].GetComponent<AudioController>();
         head = GetComponentInChildren<Segment>();
